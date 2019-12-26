@@ -4,13 +4,13 @@
 
 #include "Var.h"
 
-Var::Var(string sim, string genName, string direct, float val) {
+Var::Var(string sim, /*string name,*/ string direct, float val) {
   this->sim = sim;
-  this->genName = genName;
+  //this->name = name;
   this->direct = direct;
   this->val = val;
 };
 
-void Var::updateVarValue (float newValue) {
+void Var::changeVarValue (float newValue) {
   this->val = newValue;
 }

@@ -11,18 +11,18 @@
 using namespace std;
 
 
-class Var : public Expression{
+class Var{
 
  private:
   string sim;
-  string genName;
+  //string name;
   string direct; // <- OR ->
   float val;
 
  public:
-  Var(string sim, string genName, string direct, float val);
+  Var(string sim, /*string name,*/ string direct, float val);
 
-  void updateVarValue (float newValue);
+  void changeVarValue (float newValue);
 
 };
 
