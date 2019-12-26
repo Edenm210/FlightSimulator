@@ -21,7 +21,7 @@ public:
     lexer();
     ~lexer();
     vector<string> lex(string fileName);
-    bool isNumber(string s);
+    static bool isNumber(string s);
 };
 
 

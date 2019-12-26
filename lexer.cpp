@@ -31,9 +31,9 @@ bool lexer::isNumber(string s) {
 vector<string> lexer::lex(string fileName) {
     char ch;
     streampos funcBegin;
-    int i, flag = 0, skipSpace = 0, countFuncArgs = 0;
+    int i, flag = 0, skipSpace = 0, countFuncArgs = 0, foundWhile, foundIf;
     string line;
-    string coma = ", ";
+    //string coma = ", ";
     ifstream simData(fileName, ios::in);
     if (!simData) {
         throw "Couldn't open File";
@@ -41,6 +41,37 @@ vector<string> lexer::lex(string fileName) {
     while (!simData.eof()) {
         getline(simData, line);
         for (i = 0; i < line.length(); i++) {
+            foundWhile = line.find("while");
+            foundIf = line.find("if");
+            if (foundWhile != -1 || foundIf != -1) {
+                while (line[i] != ' ') {
+                    tok += line[i];
+                    i++;
+                }
+                tokens.push_back(tok);
+                tok = "";
+                i++;
+                while (line[i] != '{') {
+                    tok += line[i];
+                    i++;
+                }
+                tokens.push_back(tok);
+                tok = "";
+                ///
+                funcBegin = simData.tellg();  // stores the position
+                while (ch != '}') {
+                    getline(simData, line);
+                    ch = line[0];
+                    countFuncArgs += 1;
+                }
+                simData.seekg(funcBegin);   // get back to the position
+                tokens.push_back(to_string(countFuncArgs - 1));
+                //tokens.push_back(coma);
+                tok = "";
+                skipSpace = 1; // last addition
+                ///
+                continue;
+            }
             ch = line[i];
             if (isalpha(ch)) {
                 tok += ch;
@@ -54,11 +85,11 @@ vector<string> lexer::lex(string fileName) {
                 switch (ch) {
                     case '(':
                         tokens.push_back(tok);
-                        tokens.push_back(coma);
+                        //tokens.push_back(coma);
                         tok = "";
-                        if (line[ i + 1] != '"'){
-                            while(line[i+1] != ')') {
-                                tok += line[i +1];
+                        if (line[i + 1] != '"') {
+                            while (line[i + 1] != ')') {
+                                tok += line[i + 1];
                                 i++;
                             }
                             continue;
@@ -70,7 +101,7 @@ vector<string> lexer::lex(string fileName) {
                         continue;
                     case ')':
                         tokens.push_back(tok);
-                        tokens.push_back(coma);
+                        //tokens.push_back(coma);
                         tok = "";
                         skipSpace = 1; // last addition
                         continue;
@@ -91,7 +122,7 @@ vector<string> lexer::lex(string fileName) {
                         continue;
                     case ',':
                         tokens.push_back(tok);
-                        tokens.push_back(coma);
+                        //tokens.push_back(coma);
                         tok = "";
                         skipSpace = 1; // last addition
                         continue;
@@ -103,7 +134,7 @@ vector<string> lexer::lex(string fileName) {
                         if (line[i - 1] == '-' || line[i + 1] == '=') {
                             tok += ch;
                             tokens.push_back(tok);
-                            tokens.push_back(coma);
+                            //tokens.push_back(coma);
                             tok = "";
                             skipSpace = 1;
 
@@ -116,7 +147,7 @@ vector<string> lexer::lex(string fileName) {
                         } else {
                             tok += ch;
                             tokens.push_back(tok);
-                            tokens.push_back(coma);
+                            //tokens.push_back(coma);
                             tok = "";
                             skipSpace = 1; // last addition
                         }
@@ -141,6 +172,7 @@ vector<string> lexer::lex(string fileName) {
                     case '=':
                         if (line[i - 1] != '<' && line[i - 1] != '>') {
                             i++;
+                            tokens.push_back("=");
                             while (i < line.length()) {
                                 if (line[i] != ' ') {
                                     tok += line[i];
@@ -153,10 +185,11 @@ vector<string> lexer::lex(string fileName) {
                                 tok += ch;
                             }
                             tokens.push_back(tok);
-                            tokens.push_back(coma);
+                            //tokens.push_back(coma);
                             tok = "";
                             skipSpace = 1; // last addition
                         }
+                        tok = "";
                         continue;
                     case '{':
                         funcBegin = simData.tellg();  // stores the position
@@ -167,7 +200,7 @@ vector<string> lexer::lex(string fileName) {
                         }
                         simData.seekg(funcBegin);   // get back to the position
                         tokens.push_back(to_string(countFuncArgs - 1));
-                        tokens.push_back(coma);
+                        //tokens.push_back(coma);
                         tok = "";
                         skipSpace = 1; // last addition
                         continue;
@@ -176,7 +209,7 @@ vector<string> lexer::lex(string fileName) {
                     case ' ':
                         if (skipSpace != 1) {
                             tokens.push_back(tok);
-                            tokens.push_back(coma);
+                            //tokens.push_back(coma);
                             tok = "";
                         }
                         continue;
@@ -190,7 +223,6 @@ vector<string> lexer::lex(string fileName) {
 
     simData.close();
 
-    return
-            tokens;
+    return tokens;
 }
 
