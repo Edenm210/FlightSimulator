@@ -22,7 +22,7 @@ CommandsMap* CommandsMap::getInstanceCommandMap() {
 
 }
 
-unordered_map<string, Command> CommandsMap::getCommandMap() {
+unordered_map<string, Command*> CommandsMap::getCommandMap() {
   return this->commandMap;
 }
 

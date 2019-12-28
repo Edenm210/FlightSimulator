@@ -8,10 +8,13 @@
 #include "Command.h"
 #include "vector"
 
+using namespace std;
+
+
 class Command {
 
  public:
-  int numOfParams = NULL;
+  int numOfParams = -1;
   virtual int execute(int i, vector<string> lexerData) = 0;
   virtual ~Command() {}
 

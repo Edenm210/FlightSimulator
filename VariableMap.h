@@ -18,8 +18,10 @@ class VariableMap{
 
  private:
   static VariableMap* instanceVarMap;
-  unordered_map<string, Var*> varsMap; // varsName and its sim+value
-  list<string> VarNames;
+  unordered_map<string, Var*> varsGenMap; // generic variables
+  unordered_map<string, Var*> varsFlyMap; // variables from the "fly.txt" (from the code)
+
+  list<string> VarGenNames;
 
   /* Private constructor to prevent instancing. */
   VariableMap();
@@ -30,11 +32,10 @@ class VariableMap{
   /* Static access method. */
   static VariableMap* getInstanceVarsMap();
 
-  unordered_map<string, Var*> getVarsMap();
+  unordered_map<string, Var*> getGenVarsMap();
+  unordered_map<string, Var*> getFlyVarsMap();
 
   void setVarValue(string name, float newValue);
-
-
 
   ~VariableMap();
 

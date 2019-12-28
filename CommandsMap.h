@@ -18,7 +18,7 @@ class CommandsMap {
 
  private:
   static CommandsMap* instanceCommandMap;
-  unordered_map<string, Command> commandMap; // commands Map
+  unordered_map<string, Command*> commandMap; // commands Map
 
   /* Private constructor to prevent instancing. */
   CommandsMap();
@@ -28,7 +28,7 @@ class CommandsMap {
   /* Static access method. */
   static CommandsMap* getInstanceCommandMap();
 
-  unordered_map<string, Command> getCommandMap();
+  unordered_map<string, Command*> getCommandMap();
 
 
   ~CommandsMap();
