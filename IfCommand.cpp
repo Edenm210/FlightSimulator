@@ -26,8 +26,7 @@ IfCommand::IfCommand(int params) : Command() {
 
 //trim the vector from the start after every execution / var definition
 int IfCommand::execute(int i, vector<string> lexerData) {
-    this->numOfParams = 0;
-    int j, oper = 0, expFlag = 0, k = 0, operFlag = 0, t = 0;
+    int j, oper = 0, expFlag = 0, k = 0, operFlag = 0, moveIndex = 0;
     char ch;
     double arg1 = 0, arg2 = 0; // arg1 - left exp, arg2 - right exp
     string varsToSet, token, exp1, exp2, sign;
@@ -39,7 +38,7 @@ int IfCommand::execute(int i, vector<string> lexerData) {
     i1->setVariables(varsToSet);
     // advance from the token 'if' to the next token - the argument in the 'if' condition
     i++;
-    this->numOfParams++;
+    moveIndex++;
     token = lexerData.at(i);
     /// Calculate the expressions and sign of 'if' condition
     for (k = 0; k < token.size(); k++) {
@@ -70,12 +69,12 @@ int IfCommand::execute(int i, vector<string> lexerData) {
     k = 0;
     /// END OF Calculate the expressions and sign of 'if' condition
     i++; //j++
-    this->numOfParams++;
+    moveIndex++;
     token = lexerData[i];
     k = stoi(token);
     //get index i (of lexerData) to the first line inside the 'if' condition
     i++; //j++
-    this->numOfParams++;
+    moveIndex++;
     switch (oper) {
         // <
         case 1:
@@ -86,9 +85,8 @@ int IfCommand::execute(int i, vector<string> lexerData) {
                     if (CommandsMap::getInstanceCommandMap()->getCommandMap().find(token)
                         != CommandsMap::getInstanceCommandMap()->getCommandMap().end()) {
                         //have to check this line!!!!!!
-                        t += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
-                        i += t;
-                        this->numOfParams = +t;
+                        moveIndex += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
+                        i += moveIndex;
                     }
                 }
             }
@@ -102,9 +100,8 @@ int IfCommand::execute(int i, vector<string> lexerData) {
                     if (CommandsMap::getInstanceCommandMap()->getCommandMap().find(token)
                         != CommandsMap::getInstanceCommandMap()->getCommandMap().end()) {
                         //have to check this line!!!!!!
-                        t += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
-                        i += t;
-                        this->numOfParams = +t;
+                        moveIndex += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
+                        i += moveIndex;
                     }
                 }
             }
@@ -118,9 +115,8 @@ int IfCommand::execute(int i, vector<string> lexerData) {
                     if (CommandsMap::getInstanceCommandMap()->getCommandMap().find(token)
                         != CommandsMap::getInstanceCommandMap()->getCommandMap().end()) {
                         //have to check this line!!!!!!
-                        t += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
-                        i += t;
-                        this->numOfParams = +t;
+                        moveIndex += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
+                        i += moveIndex;
                     }
                 }
             }
@@ -134,9 +130,8 @@ int IfCommand::execute(int i, vector<string> lexerData) {
                     if (CommandsMap::getInstanceCommandMap()->getCommandMap().find(token)
                         != CommandsMap::getInstanceCommandMap()->getCommandMap().end()) {
                         //have to check this line!!!!!!
-                        t += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
-                        i += t;
-                        this->numOfParams = +t;
+                        moveIndex += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
+                        i += moveIndex;
                     }
                 }
             }
@@ -150,9 +145,8 @@ int IfCommand::execute(int i, vector<string> lexerData) {
                     if (CommandsMap::getInstanceCommandMap()->getCommandMap().find(token)
                         != CommandsMap::getInstanceCommandMap()->getCommandMap().end()) {
                         //have to check this line!!!!!!
-                        t += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
-                        i += t;
-                        this->numOfParams = +t;
+                        moveIndex += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
+                        i += moveIndex;
                     }
                 }
             }
@@ -166,9 +160,8 @@ int IfCommand::execute(int i, vector<string> lexerData) {
                     if (CommandsMap::getInstanceCommandMap()->getCommandMap().find(token)
                         != CommandsMap::getInstanceCommandMap()->getCommandMap().end()) {
                         //have to check this line!!!!!!
-                        t += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
-                        i += t;
-                        this->numOfParams = +t;
+                        moveIndex += CommandsMap::getInstanceCommandMap()->getCommandMap().at(token)->execute(i, lexerData);
+                        i += moveIndex;
                     }
                 }
             }
@@ -176,7 +169,8 @@ int IfCommand::execute(int i, vector<string> lexerData) {
         default:
             break;
     }
-    return this->numOfParams;
+    //instead of NumOfParams
+    return moveIndex;
 }
 
 int IfCommand::idenOperator(char c) {

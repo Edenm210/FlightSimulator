@@ -3,11 +3,33 @@
 //
 
 #include "openServerCommand.h"
+#include "lexer.h"
+#include "VariableMap.h"
 
 
-openServerCommand::openServerCommand(int portNum) {
+openServerCommand::openServerCommand(){};
+openServerCommand::~openServerCommand(){};
+
+int openServerCommand::execute(int i, vector<string> lexerData){
+    i++;
+    this->portNum = stoi(lexerData[i]);
+    auto server = openServerCommand();
+    //thread?
+    server.runServer();
+    i++;
+    return i;
+}
+
+int openServerCommand::runServer() {
+    int i, j = 0;
+    float updatedVal;
+    string token = " ";
+    string varName;
+    VariableMap* map = VariableMap::getInstanceVarsMap();
+    vector<string> varOrder = VariableMap::getVarNames();
+    //
     //create socket
-    int socketfd = socket(AF_INET, SOCK_STREAM, 0);
+    this->socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
         //error
         std::cerr << "Could not create a socket" << std::endl;
@@ -15,7 +37,7 @@ openServerCommand::openServerCommand(int portNum) {
 
     //bind socket to IP address
     // we first need to create the sockaddr obj.
-    sockaddr_in address{}; //in means IP4
+    this-> address = {}; //in means IP4
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
     address.sin_port = htons(portNum);
@@ -34,29 +56,38 @@ openServerCommand::openServerCommand(int portNum) {
         std::cout << "Server is now listening ..." << std::endl;
     }
 
-}
-
-int openServerCommand::initServer(int socketfd, sockaddr_in address) {
     // accepting a client
-    int client_socket = accept(socketfd, (struct sockaddr *) &address,
-                               (socklen_t *) &address);
+    sockaddr_in adder = this->address;
+    int client_socket = accept(this->socketfd, (struct sockaddr *) &adder,
+                               (socklen_t *) &adder);
 
     if (client_socket == -1) {
         std::cerr << "Error accepting client" << std::endl;
         return -4;
     }
-
-    //reading from client
-    char buffer[1024] = {0};
-    int valread = read(client_socket, buffer, 1024);
-    std::cout << buffer << std::endl;
-
-    //writing back to client
-    const char *hello = "Hello, I can hear you! \n";
-    send(client_socket, hello, strlen(hello), 0);
-    std::cout << "Hello message sent\n" << std::endl;
+    while (!VariableMap::getBool()) {
+        //reading from client
+        char buffer[2048] = {0};
+        int valread = read(client_socket, buffer, 2048);
+        std::cout << buffer << std::endl;
+        for (i = 0; i < 36; i++) {
+            while (buffer[j] != '\n' && buffer[j] != ',') {
+                token.append(1, buffer[j]);
+                j++;
+            }
+            updatedVal = stof(token);
+            varName = varOrder[i];
+            map->setVarValue(varName, updatedVal);
+            token.clear();
+            std::cout<< updatedVal<<endl;
+            if (buffer[j] == ',') {
+                j++;
+            }
+        }
+    }
     return 0;
 
     //close(socketfd); //closing the listening socket
 }
+
 

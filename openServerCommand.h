@@ -9,19 +9,23 @@
 #include <iostream>
 #include <unistd.h>
 #include <netinet/in.h>
-#include <cstring>
+#include <vector>
+
+using namespace std;
 
 class openServerCommand {
 private:
-
+    int portNum;
+    int socketfd;
+    sockaddr_in address;
 public:
     openServerCommand();
-    openServerCommand(int portNum);
     ~openServerCommand();
-    int initServer(int socketfd, sockaddr_in address);
+    int runServer();
+    int execute(int i, vector<string> lexerData);
 
 
-};
+    };
 
 
 #endif //EX3_OPENSERVERCOMMAND_H
