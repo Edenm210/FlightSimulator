@@ -10,19 +10,29 @@
 #include "Expression.h"
 using namespace std;
 
-
-class Var{
+class Var {
 
  private:
   string sim;
+  //string genName;
   string direct; // <- OR ->
   float val;
 
  public:
-  Var(string sim, string direct, float val);
+  Var(string sim,/* string genName,*/ string direct, float val);
 
-  void changeVarValue (float newValue);
+  void updateVarValue (float newValue);
+
+  float getVal();
+
+  string getSim();
+
+  string getDirect();
+
 
 };
+
+
+
 
 #endif //PROJECT3__VAR_H_
