@@ -24,7 +24,7 @@ public:
     int idenOperator(string s);
 
     int idenOperator(char c);
-    string varsToString(unordered_map<string, Var*> varMap);
+    static string varsToString(unordered_map<string, Var*> varMap);
     string getExp(string s);
 };
 
