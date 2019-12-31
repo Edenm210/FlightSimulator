@@ -21,12 +21,12 @@ class VariableMap{
   unordered_map<string, Var*> varsGenMap; // generic variables
   unordered_map<string, Var*> varsFlyMap; // variables from the "fly.txt" (from the code)
 
-  list<string> VarGenNames;
+  static vector<string> VarGenNamesVec;
+  static bool progEnd;
 
   /* Private constructor to prevent instancing. */
   VariableMap();
   void initVarMap();
-
 
  public:
   /* Static access method. */
@@ -37,11 +37,16 @@ class VariableMap{
 
   void setVarValue(string name, float newValue);
 
+  static vector<string> getVarNames();
+
+  //void print();
+
+  static bool getBool();
+
+  static void setBool(bool b);
+
   ~VariableMap();
 
 };
-
-
-
 
 #endif //PROJECT3__VARIABLEMAP_H_
