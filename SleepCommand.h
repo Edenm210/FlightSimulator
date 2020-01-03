@@ -5,15 +5,15 @@
 #ifndef EX3_SLEEPCOMMAND_H
 #define EX3_SLEEPCOMMAND_H
 
-#include <Command.h>
 #include <string>
+#include "Command.h"
 
 class SleepCommand : public Command {
 
 public:
-    SleepCommand();
-    ~SleepCommand();
-    int execute(int i, vector<string> lexerData);
+  SleepCommand();
+  ~SleepCommand() override;
+  int execute(int i, vector<string> lexerData) override;
 };
 
 

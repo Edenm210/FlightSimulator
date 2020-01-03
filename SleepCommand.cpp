@@ -4,7 +4,7 @@
 
 #include "SleepCommand.h"
 
-SleepCommand::SleepCommand() {}
+SleepCommand::SleepCommand() : Command(){}
 
 SleepCommand::~SleepCommand() {}
 
@@ -22,8 +22,9 @@ int SleepCommand::execute(int i, vector<string> lexerData) {
     }
     moveIndex++;
     //thread sleep
+    this->numOfParams = moveIndex;
 
-    return moveIndex;
+    return numOfParams;
 }
 
 

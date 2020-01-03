@@ -10,16 +10,16 @@
 class Variable : public Expression {
  private:
   string var_name;
-  double var_value;
+  float var_value;
 
  public:
-  Variable(string name, double value);
-  double calculate() override;
+  Variable(string name, float value);
+  float calculate() override;
 
   Variable &operator++();
   Variable &operator--();
-  Variable &operator+=(double num);
-  Variable &operator-=(double num);
+  Variable &operator+=(float num);
+  Variable &operator-=(float num);
   Variable &operator++(int);
   Variable &operator--(int);
 };

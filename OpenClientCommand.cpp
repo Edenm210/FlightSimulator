@@ -8,10 +8,11 @@
 #include "OpenClientCommand.h"
 #include "VariableMap.h"
 
-OpenClientCommand::OpenClientCommand() {};
+OpenClientCommand::OpenClientCommand():Command() {};
 OpenClientCommand::~OpenClientCommand() {};
 
 int OpenClientCommand::execute(int i, vector<string> lexerData) {
+  this->numOfParams = 3;
   string ipString = lexerData.at(i + 1);
   const char *ipConst = ipString.c_str();
 
@@ -21,7 +22,6 @@ int OpenClientCommand::execute(int i, vector<string> lexerData) {
   OpenClientCommand client = OpenClientCommand();
   //thread?
   client.connectClient();
-  this->numOfParams = 3;
   return numOfParams;
 }
 

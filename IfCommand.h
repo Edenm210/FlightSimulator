@@ -8,24 +8,21 @@
 #include <string>
 #include <vector>
 #include "Command.h"
+#include "Var.h"
+#include "ConditionCommand.h"
 #include <unordered_map>
-#include <Var.h>
 
 using namespace std;
 
-class IfCommand : public Command {
+class IfCommand : public ConditionCommand {
 
-public:
-    IfCommand(int params);
+ public:
+  IfCommand();
+  ~IfCommand() override;
 
-    virtual ~IfCommand() {}
+  int execute(int i, vector<string> lexerData) override; // i is the location of the commandName in the array
 
-    int execute(int i, vector<string> lexerData) override; // i is the location of the commandName in the array
-    int idenOperator(string s);
-
-    int idenOperator(char c);
-    static string varsToString(unordered_map<string, Var*> varMap);
-    string getExp(string s);
+  //string getExp(string s);
 };
 
 #endif //PROJECT3__IFCOMMAND_H_

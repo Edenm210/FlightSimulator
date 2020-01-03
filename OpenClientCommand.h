@@ -15,7 +15,7 @@
 
 using namespace std;
 
-class OpenClientCommand :Command{
+class OpenClientCommand : public Command{
  private:
   int portNum;
   const char *ip;
