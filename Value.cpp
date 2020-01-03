@@ -5,6 +5,6 @@
 #include "Value.h"
 
 //Value class
-Value::Value(double val) : Expression() { this->value = val; } // calling the father constructor
-double Value::calculate() { return this->value; }
-double Value::getValue() const { return this->value; }
+Value::Value(float val) : Expression() { this->value = val; } // calling the father constructor
+float Value::calculate() { return this->value; }
+float Value::getValue() const { return this->value; }

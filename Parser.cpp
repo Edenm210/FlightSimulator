@@ -5,11 +5,9 @@
 #include <iostream>
 #include "Parser.h"
 #include "CommandsMap.h"
-#include "VariableMap.h"
 #include "vector"
 #include "WhileCommand.h"
-#include "IfCommand.h"
-#include "Interpreter.h"
+#include "DefineVarCommand.h"
 
 using namespace std;
 
@@ -20,14 +18,20 @@ void Parser::ParseCommand(vector<string> lexerData) {
     int index = 0;
     while (index < lexerData.size()) {
       string stringToFind = lexerData.at(index); // the word we want to find
-      Command *c = commandMap.find(stringToFind)->second; // getting the command
+      Command *c;
 
-      if (c!=NULL)
-        index += c->execute(index, lexerData);
+      //the command does not match so it is a variable name - updating variable value (=)
+      if(commandMap.find(stringToFind) == commandMap.end()) {
+        c = new DefineVarCommand();
+      } else {
+        c= commandMap.find(stringToFind)->second; // getting the command
+      }
+
+      index += c->execute(index, lexerData);
+
     }
   } catch (const char *e) {
     std::cout << e << std::endl;
-
   }
 }
 

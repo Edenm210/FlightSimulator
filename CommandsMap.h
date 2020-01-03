@@ -22,6 +22,8 @@ class CommandsMap {
 
   /* Private constructor to prevent instancing. */
   CommandsMap();
+  void initCommandMap();
+
 
 
  public:

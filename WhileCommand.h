@@ -7,14 +7,15 @@
 
 #include "Command.h"
 #include "vector"
+#include "ConditionCommand.h"
 
 using namespace std;
 
-class WhileCommand: public Command {
+class WhileCommand: public ConditionCommand {
 
  public:
-  WhileCommand(int params);
-  virtual ~WhileCommand() {}
+  WhileCommand();
+  ~WhileCommand() override;
   int execute(int i, vector<string> lexerData) override; // i is the location of the commandName in the array
 
 };

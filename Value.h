@@ -6,17 +6,16 @@
 #define PROJECT3__VALUE_H_
 
 #include "Expression.h"
-class Value : public Expression{
+class Value : public Expression {
 
  private:
-    double value;
+  float value;
 
-   public:
-    Value(double val);
-    // Getter - can't change the value
-    double getValue() const;
-    double calculate() override;
-
+ public:
+  explicit Value(float val);
+  // Getter - can't change the value
+  float getValue() const;
+  float calculate() override;
 
 };
 

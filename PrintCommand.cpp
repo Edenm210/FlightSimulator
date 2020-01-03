@@ -3,7 +3,7 @@
 //
 
 #include "PrintCommand.h"
-#include <VariableMap.h>
+#include "VariableMap.h"
 #include <iostream>
 
 using namespace std;
@@ -16,18 +16,18 @@ int PrintCommand::execute(int i, vector<string> lexerData) {
     i++;
     moveIndex++;
     str = lexerData[i];
-    if(VariableMap::getInstanceVarsMap()->getVarsMap().find(str) !=
-    VariableMap::getInstanceVarsMap()->getVarsMap().end()) {
-       val = VariableMap::getInstanceVarsMap()->getVarsMap().at(str)->getVal();
+    if(VariableMap::getInstanceVarsMap()->getFlyVarsMap().find(str) !=
+    VariableMap::getInstanceVarsMap()->getFlyVarsMap().end()) {
+       val = VariableMap::getInstanceVarsMap()->getFlyVarsMap().at(str)->getVal();
        cout<<val<<endl;
     } else {
         cout<<str<<endl;
     }
     moveIndex++;
-    i++;
-    return moveIndex;
+    this->numOfParams = moveIndex;
+    return numOfParams;
 }
 
-PrintCommand::PrintCommand() {}
+PrintCommand::PrintCommand() : Command(){}
 
 PrintCommand::~PrintCommand() {}

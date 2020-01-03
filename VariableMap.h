@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include "Expression.h"
 #include "Var.h"
-#include <list>
+#include <vector>
 
 using namespace std;
 
@@ -21,7 +21,7 @@ class VariableMap{
   unordered_map<string, Var*> varsGenMap; // generic variables
   unordered_map<string, Var*> varsFlyMap; // variables from the "fly.txt" (from the code)
 
-  static vector<string> VarGenNamesVec;
+  static vector<string> varGenNames;
   static bool progEnd;
 
   /* Private constructor to prevent instancing. */
