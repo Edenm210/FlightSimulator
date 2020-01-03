@@ -46,12 +46,15 @@ int IfCommand::execute(int i, vector<string> lexerData) {
     for (j = 0; j < k; j++) {
       token = lexerData[i]; // the commandName to execute
       unordered_map<string, Command *> commandMap = CommandsMap::getInstanceCommandMap()->getCommandMap();
+      Command *c;
 
-      Command *c = commandMap.find(token)->second; // getting the command
-
-      if (c==NULL) { //the command does not match so it is a variable name - updating variable value (=)
+      //the command does not match so it is a variable name - updating variable value (=)
+      if(commandMap.find(token) == commandMap.end()) {
         c = new DefineVarCommand();
+      } else {
+        c= commandMap.find(token)->second; // getting the command
       }
+
       //have to check this line!!!!!!
       moveIndex += c->execute(i, lexerData);
       i += moveIndex; // moving to the next command in the loop
