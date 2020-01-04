@@ -10,8 +10,6 @@
 #include "Interpreter.h"
 
 ConditionCommand::ConditionCommand() {
-  initCondition();
-
 }
 
 int ConditionCommand::idenOperator(char c) {

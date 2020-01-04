@@ -13,7 +13,7 @@ using namespace std;
 
 class Interpreter {
  private:
-  map<string, double> variables_map;
+  map<string, float> variables_map;
 
  public:
   Interpreter(); // empty constructor

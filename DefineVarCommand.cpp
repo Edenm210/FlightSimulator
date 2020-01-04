@@ -17,21 +17,27 @@ int DefineVarCommand::execute(int index,
                               vector<string> lexerData) { // i is the location of the commandName in the array
 
   string stringToFind = lexerData.at(index); // the word we want to find
-  string name = lexerData.at(index + 1);
-  string direct = lexerData.at(index + 2);
+  string name, direct;
   if (stringToFind=="var") { // new var declaration
+    std::cout << "here" << std::endl;
+
+    name = lexerData.at(index + 1);
+    direct = lexerData.at(index + 2);
     if (direct.compare("=")!=0) {
       string sim = lexerData.at(index + 4);
       VariableMap::getInstanceVarsMap()->getFlyVarsMap()[name] = new Var(sim, direct, 0);
       this->numOfParams = 5;
     } else { // new 'stupid' variable - not pointing to any Var in the simulator only a value
+      name = stringToFind;
       updateValueOfVar(lexerData.at(index + 3), name);
       this->numOfParams = 4;
     }
   } else { // the string to find is a variable name - updating value of *existing* var (=)
+    direct = lexerData.at(index + 1);
     updateValueOfVar(lexerData.at(index + 2), stringToFind);
     this->numOfParams = 3;
   }
+
   return this->numOfParams;
 }
 
@@ -41,8 +47,10 @@ void DefineVarCommand::updateValueOfVar(string expression, string varName) {
   string varsToSet;
   //creating a string from the variables map, afterwards the Interpreter will use it
   unordered_map<string, Var *> varMap = VariableMap::getInstanceVarsMap()->getFlyVarsMap();
-  varsToSet = ConditionCommand::varsToString(varMap);
-  i1->setVariables(varsToSet);
+  if(!varMap.empty()) {
+    varsToSet = ConditionCommand::varsToString(varMap);
+    i1->setVariables(varsToSet);
+  }
 
   try {
     exp = i1->interpret(expression);

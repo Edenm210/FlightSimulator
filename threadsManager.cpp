@@ -7,8 +7,8 @@
 threadsManager* threadsManager::aThread = 0;
 
 threadsManager *threadsManager::getThread() {
-    if (!aThread) {
-        aThread = new threadsManager;
-    }
-    return aThread;
+  if (!aThread) {
+    aThread = new threadsManager;
+  }
+  return aThread;
 }

@@ -13,22 +13,22 @@ BinaryOperator::~BinaryOperator() { delete this->left, delete this->right; }
 
 
 Plus::Plus(Expression *leftExp, Expression *rightExp) : BinaryOperator(leftExp, rightExp) {}
-double Plus::calculate() {
+float Plus::calculate() {
   return (this->getLeft()->calculate() + this->getRight()->calculate());
 }
 
 Minus::Minus(Expression *leftExp, Expression *rightExp) : BinaryOperator(leftExp, rightExp) {}
-double Minus::calculate() {
+float Minus::calculate() {
   return (this->getLeft()->calculate() - this->getRight()->calculate());
 }
 
 Mul::Mul(Expression *leftExp, Expression *rightExp) : BinaryOperator(leftExp, rightExp) {}
-double Mul::calculate() {
+float Mul::calculate() {
   return (this->getLeft()->calculate()*this->getRight()->calculate());
 }
 
 Div::Div(Expression *leftExp, Expression *rightExp) : BinaryOperator(leftExp, rightExp) {}
-double Div::calculate() {
+float Div::calculate() {
   if (this->getRight()->calculate()==0) { throw "can not divide by zero !"; }
   else { return (this->getLeft()->calculate()/this->getRight()->calculate()); }
 }

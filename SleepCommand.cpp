@@ -3,28 +3,29 @@
 //
 
 #include "SleepCommand.h"
+#include <thread>
+#include <iostream>
 
-SleepCommand::SleepCommand() : Command(){}
+using namespace std;
+
+SleepCommand::SleepCommand() {}
 
 SleepCommand::~SleepCommand() {}
 
 int SleepCommand::execute(int i, vector<string> lexerData) {
-    int moveIndex = 0, seconds, miliseconds, time;
-    string str;
-    //advance the token 'Print' to the next token - the data to print
-    i++;
-    moveIndex++;
-    str = lexerData[i];
-    time = stoi(str);
-    if (time > 1000) {
-        seconds = time / 2500;
-        miliseconds = time % 1000;
-    }
-    moveIndex++;
-    //thread sleep
-    this->numOfParams = moveIndex;
+  int moveIndex = 0, seconds, time;
+  string str;
+  //advance the token 'Print' to the next token - the data to print
+  i++;
+  moveIndex++;
+  str = lexerData[i];
+  time = stoi(str);
+  chrono::milliseconds ms((int)time);
+  this_thread::sleep_for(ms);
+  moveIndex++;
+  cout<<"Done Sleeping"<<endl;
 
-    return numOfParams;
+  return moveIndex;
 }
 
 

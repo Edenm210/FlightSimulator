@@ -27,26 +27,26 @@ class Plus : public BinaryOperator {
 
  public:
   Plus(Expression *leftExp, Expression *rightExp);
-  double calculate() override;
+  float calculate() override;
 
 };
 
 class Minus : public BinaryOperator {
  public:
   Minus(Expression *leftExp, Expression *rightExp);
-  double calculate() override;
+  float calculate() override;
 };
 
 class Mul : public BinaryOperator {
  public:
   Mul(Expression *leftExp, Expression *rightExp);
-  double calculate() override;
+  float calculate() override;
 };
 
 class Div : public BinaryOperator {
  public:
   Div(Expression *leftExp, Expression *rightExp);
-  double calculate() override;
+  float calculate() override;
 };
 
 

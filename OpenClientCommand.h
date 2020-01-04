@@ -18,6 +18,7 @@ using namespace std;
 class OpenClientCommand : public Command{
  private:
   int portNum;
+  int client_socket;
   const char *ip;
 
 //  int socketfd;
@@ -26,7 +27,7 @@ class OpenClientCommand : public Command{
   OpenClientCommand();
   ~OpenClientCommand() override;
   int connectClient();
-  int runClient(int client_socket);
+  static void runClient(int client_socket);
 
   int execute(int i, vector<string> lexerData) override;
 

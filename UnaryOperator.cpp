@@ -10,11 +10,11 @@ Expression *UnaryOperator::getUnExp() { return this->unExp; }
 
 
 UPlus::UPlus(Expression *exp) : UnaryOperator(exp) {}
-double UPlus::calculate() {
+float UPlus::calculate() {
   return this->getUnExp()->calculate();
 }
 
 UMinus::UMinus(Expression *exp) : UnaryOperator(exp) {}
-double UMinus::calculate() {
+float UMinus::calculate() {
   return this->getUnExp()->calculate()*(-1);
 }

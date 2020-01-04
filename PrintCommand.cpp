@@ -24,6 +24,7 @@ int PrintCommand::execute(int i, vector<string> lexerData) {
         cout<<str<<endl;
     }
     moveIndex++;
+    cout<<"done Printing"<<endl;
     this->numOfParams = moveIndex;
     return numOfParams;
 }

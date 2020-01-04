@@ -145,11 +145,11 @@ void Interpreter::setVariables(string variables_string) {
       equation_side = "left";
       if (var_value[0]=='-') {
         var_value.erase(0, 1);
-        this->variables_map[var_name] = (-1)*stod(var_value);
+        this->variables_map[var_name] = (-1)*stof(var_value);
       } else if (var_value[0]=='+') {
         var_value.erase(0, 1);
-        this->variables_map[var_name] = stod(var_value);
-      } else { this->variables_map[var_name] = stod(var_value); } // inserting the variable to the variables map
+        this->variables_map[var_name] = stof(var_value);
+      } else { this->variables_map[var_name] = stof(var_value); } // inserting the variable to the variables map
       var_name.clear();
       var_value.clear();
       continue;
@@ -199,7 +199,7 @@ Expression *Interpreter::newExpression(queue<string> queue) {
     }
       // it is a number (no starting with a dot)
     else if (isdigit(queue.front()[0])) {
-      exp_stack.push(new Value(stod(queue.front()))); // converting the string to double
+      exp_stack.push(new Value(stof(queue.front()))); // converting the string to float
       //queue.pop();
     }
       // operator - binary
@@ -237,7 +237,7 @@ Expression *Interpreter::newExpression(queue<string> queue) {
 }
 
 Expression *Interpreter::findVarInMap(string variable) {
-  map<string, double>::iterator iterator;
+  map<string, float>::iterator iterator;
   iterator = variables_map.find(variable); // finding the variable in the map
   if (iterator!=variables_map.end()) {
     return new Variable(variable, iterator->second);

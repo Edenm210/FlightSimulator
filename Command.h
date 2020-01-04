@@ -6,8 +6,8 @@
 #define PROJECT3__COMMAND_H_
 
 #include "Command.h"
-#include "vector"
-#include <string>
+#include <vector>
+#include <thread>
 
 
 using namespace std;

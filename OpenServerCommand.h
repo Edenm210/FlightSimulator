@@ -2,8 +2,8 @@
 // Created by yakir on 12/22/19.
 //
 
-#ifndef EX3_OPENSERVERCOMMAND_H
-#define EX3_OPENSERVERCOMMAND_H
+#ifndef EX3_OpenServerCommand_H
+#define EX3_OpenServerCommand_H
 #include <sys/socket.h>
 #include <string>
 #include <iostream>
@@ -14,19 +14,20 @@
 
 using namespace std;
 
-class OpenServerCommand : public Command{
-private:
+class OpenServerCommand : public Command {
+ private:
   int portNum;
   int socketfd;
+  int client_socket;
   sockaddr_in address;
-
  public:
-    OpenServerCommand();
-    ~OpenServerCommand() override;
-    int runServer();
-    int execute(int i, vector<string> lexerData) override;
+  OpenServerCommand();
+  ~OpenServerCommand();
+  int initServer();
+  void getData();
+  int execute(int i, vector<string> lexerData);
 
 };
 
 
-#endif //EX3_OPENSERVERCOMMAND_H
+#endif //EX3_OpenServerCommand_H

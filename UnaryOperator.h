@@ -21,14 +21,14 @@ class UnaryOperator : public Expression{
 class UPlus : public UnaryOperator {
  public:
   UPlus(Expression *exp);
-  double calculate() override;
+  float calculate() override;
 
 };
 
 class UMinus : public UnaryOperator {
  public:
   UMinus(Expression *exp);
-  double calculate() override;
+  float calculate() override;
 };
 
 
