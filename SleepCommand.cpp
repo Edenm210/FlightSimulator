@@ -15,13 +15,15 @@ SleepCommand::~SleepCommand() {}
 int SleepCommand::execute(int i, vector<string> lexerData) {
   int moveIndex = 0, seconds, time;
   string str;
-  //advance the token 'Print' to the next token - the data to print
+  //advance the token 'Sleep' to the next token - the time to sleep
   i++;
   moveIndex++;
   str = lexerData[i];
   time = stoi(str);
-  chrono::milliseconds ms((int)time);
-  this_thread::sleep_for(ms);
+  time = time /100;
+  chrono::milliseconds ms(0);
+  chrono::seconds sec(time);
+  this_thread::__sleep_for(sec ,ms);
   moveIndex++;
   cout<<"Done Sleeping"<<endl;
 

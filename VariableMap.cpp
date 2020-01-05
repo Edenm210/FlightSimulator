@@ -15,6 +15,7 @@ bool VariableMap::progEnd = 1;
 
 vector<string> VariableMap::varGenNames = {};
 
+vector<string> VariableMap::varFlyNames = {};
 
 VariableMap::VariableMap() {
   //CONSTRUCTOR
@@ -51,8 +52,12 @@ unordered_map<string, Var*> VariableMap::getGenVarsMap() {
   return this->varsGenMap;
 }
 
-vector<string> VariableMap::getVarNames() {
+vector<string> VariableMap::getGenNames() {
   return varGenNames;
+}
+
+vector<string> VariableMap::getFlyNames() {
+    return varFlyNames;
 }
 
 bool VariableMap::getBool() {
@@ -380,7 +385,15 @@ void VariableMap::initVarMap() {
   this->varsGenMap[simVar] = v36;
 
 }
+/*
+bool VariableMap::getFlyDone() {
+    return doneFly;
+}
 
+void VariableMap::setFlyDone(bool c) {
+    doneFly = c;
+}
+*/
 
 /*
 void VariableMap::print() {

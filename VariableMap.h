@@ -20,8 +20,8 @@ class VariableMap{
   static VariableMap* instanceVarMap;
   unordered_map<string, Var*> varsGenMap; // generic variables
   unordered_map<string, Var*> varsFlyMap; // variables from the "fly.txt" (from the code)
-
-  static vector<string> varGenNames;
+  static vector<string> varGenNames; // variables' gen-sim name list
+  static vector<string> varFlyNames; // variables' fly-sim name list
   static bool progEnd;
 
   /* Private constructor to prevent instancing. */
@@ -37,7 +37,9 @@ class VariableMap{
 
   void setVarValue(string name, float newValue);
 
-  static vector<string> getVarNames();
+  static vector<string> getGenNames();
+
+  static vector<string> getFlyNames();
 
   //void print();
 

@@ -7,7 +7,11 @@
 #include "VariableMap.h"
 #include "Interpreter.h"
 #include "ConditionCommand.h"
+#include "mutex"
+
 using namespace std;
+mutex mtxV;
+
 
 DefineVarCommand::DefineVarCommand() : Command() {}
 
@@ -15,57 +19,59 @@ DefineVarCommand::~DefineVarCommand() {}
 
 int DefineVarCommand::execute(int index,
                               vector<string> lexerData) { // i is the location of the commandName in the array
-
-  string stringToFind = lexerData.at(index); // the word we want to find
-  string name, direct;
-  if (stringToFind=="var") { // new var declaration
-    std::cout << "here" << std::endl;
-
-    name = lexerData.at(index + 1);
-    direct = lexerData.at(index + 2);
-    if (direct.compare("=")!=0) {
-      string sim = lexerData.at(index + 4);
-      VariableMap::getInstanceVarsMap()->getFlyVarsMap()[name] = new Var(sim, direct, 0);
-      this->numOfParams = 5;
-    } else { // new 'stupid' variable - not pointing to any Var in the simulator only a value
-      name = stringToFind;
-      updateValueOfVar(lexerData.at(index + 3), name);
-      this->numOfParams = 4;
+    // mtxV.lock();
+    string stringToFind = lexerData.at(index); // the word we want to find
+    string name, direct;
+    if (stringToFind == "var") { // new var declaration
+        std::cout << "here" << std::endl;
+        name = lexerData.at(index + 1);
+        direct = lexerData.at(index + 2);
+        cout << name << endl;
+        if (direct.compare("=") != 0) {
+            string sim = lexerData.at(index + 4);
+            VariableMap::getInstanceVarsMap()->getFlyVarsMap()[name] = new Var(sim, direct, 0);
+            //updating names in list of Fly
+            VariableMap::getFlyNames().emplace_back(sim);
+            this->numOfParams = 5;
+        } else { // new 'stupid' variable - not pointing to any Var in the simulator only a value
+            name = stringToFind;
+            updateValueOfVar(lexerData.at(index + 3), name);
+            this->numOfParams = 4;
+        }
+    } else { // the string to find is a variable name - updating value of *existing* var (=)
+        direct = lexerData.at(index + 1);
+        updateValueOfVar(lexerData.at(index + 2), stringToFind);
+        this->numOfParams = 3;
     }
-  } else { // the string to find is a variable name - updating value of *existing* var (=)
-    direct = lexerData.at(index + 1);
-    updateValueOfVar(lexerData.at(index + 2), stringToFind);
-    this->numOfParams = 3;
-  }
-
-  return this->numOfParams;
+    //mtxV.unlock();
+    return this->numOfParams;
 }
 
 void DefineVarCommand::updateValueOfVar(string expression, string varName) {
-  Interpreter *i1 = new Interpreter();
-  Expression *exp = nullptr;
-  string varsToSet;
-  //creating a string from the variables map, afterwards the Interpreter will use it
-  unordered_map<string, Var *> varMap = VariableMap::getInstanceVarsMap()->getFlyVarsMap();
-  if(!varMap.empty()) {
-    varsToSet = ConditionCommand::varsToString(varMap);
-    i1->setVariables(varsToSet);
-  }
-
-  try {
-    exp = i1->interpret(expression);
-    float newValue = exp->calculate();
-    unordered_map<string, Var *>::const_iterator
-        iter = VariableMap::getInstanceVarsMap()->getFlyVarsMap().find(varName);
-    if (iter!=VariableMap::getInstanceVarsMap()->getFlyVarsMap().end()) { // the var exists
-      iter->second->changeVarValue(newValue);
-    } else { // new Var insertion to map
-      VariableMap::getInstanceVarsMap()->getFlyVarsMap()[varName] = new Var("", "=", newValue);
+    Interpreter *i1 = new Interpreter();
+    Expression *exp = nullptr;
+    string varsToSet;
+    //creating a string from the variables map, afterwards the Interpreter will use it
+    unordered_map<string, Var *> varMap = VariableMap::getInstanceVarsMap()->getFlyVarsMap();
+    if (!varMap.empty()) {
+        varsToSet = ConditionCommand::varsToString(varMap);
+        i1->setVariables(varsToSet);
     }
-  } catch (const char *e) {
-    // Deleting a null pointer has no effect, so it is not necessary to check for a null pointer before calling delete.
-    delete exp;
-    delete i1;
-    std::cout << e << std::endl;
-  }
+
+    try {
+        exp = i1->interpret(expression);
+        float newValue = exp->calculate();
+        unordered_map<string, Var *>::const_iterator
+                iter = VariableMap::getInstanceVarsMap()->getFlyVarsMap().find(varName);
+        if (iter != VariableMap::getInstanceVarsMap()->getFlyVarsMap().end()) { // the var exists
+            iter->second->changeVarValue(newValue);
+        } else { // new Var insertion to map
+            VariableMap::getInstanceVarsMap()->getFlyVarsMap()[varName] = new Var("", "=", newValue);
+        }
+    } catch (const char *e) {
+        // Deleting a null pointer has no effect, so it is not necessary to check for a null pointer before calling delete.
+        delete exp;
+        delete i1;
+        std::cout << e << std::endl;
+    }
 }

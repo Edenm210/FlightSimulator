@@ -5,10 +5,11 @@
 #include "OpenServerCommand.h"
 #include "lexer.h"
 #include "VariableMap.h"
-#include <thread>
-#include <mutex>
+#include "thread"
+#include "mutex"
 #include "threadsManager.h"
 #include "Interpreter.h"
+#include "fstream"
 
 ///Mutex on connection action in server and client
 ///No need to mutex the map update
@@ -74,31 +75,39 @@ void OpenServerCommand::getData() {
   auto inter1 = new Interpreter;
   string token = " ";
   string varName;
+  /// testing
+  //ofstream f;
+  //f.open("ServerBuffer.txt");
+  /// End of testing
   //VariableMap* map = VariableMap::getInstanceVarsMap();
   //vector<string> varOrder = VariableMap::getVarNames();
   while (!VariableMap::getBool()) {
     //reading from client
     char buffer[2048] = {0};
     int valread = read(client_socket, buffer, 2048);
-    std::cout << buffer << std::endl;
+    //std::cout << buffer << std::endl;
+    //f << buffer;
+    //f.close();
     for (i = 0; i < 36; i++) {
-      while (buffer[j] != '\n' && buffer[j] != ',') {
+      while (buffer[j] != '\n' && buffer[j] != ',' && buffer[j] != '\0') {
         token.append(1, buffer[j]);
         j++;
       }
       if (token != "\n" && token != "") {
         updatedVal = (float) inter1->interpret(token)->calculate();
-        varName = VariableMap::getVarNames().at(i);
+        varName = VariableMap::getGenNames().at(i);
         VariableMap::getInstanceVarsMap()->setVarValue(varName, updatedVal);
         //map->setVarValue(varName, updatedVal);
       }
       token.clear();
+        memset(buffer, 0, sizeof(buffer));
       //std::cout<<"Server updating map..."<<endl;
-      if (buffer[j] == ',') {
+      if (buffer[j] == ',' || buffer[j] == '\n') {
         j++;
       }
     }
-    cout<<"Finished an update (Server)"<<endl;
+    //cout<<"Finished an update (Server)"<<endl;
+    //usleep(500);
   }
   close(socketfd); //closing the listening socket
 }

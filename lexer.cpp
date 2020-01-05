@@ -220,7 +220,11 @@ vector<string> lexer::lex(string fileName) {
         skipSpace = 0;
         countFuncArgs = 0;
     }
-
+    ///for testing
+    for (int i = 0; i < tokens.size(); i++ ) {
+        cout<<tokens[i]<<endl;
+    }
+    ///end of testing
     simData.close();
 
     return tokens;

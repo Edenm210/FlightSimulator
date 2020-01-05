@@ -27,7 +27,7 @@ class OpenClientCommand : public Command{
   OpenClientCommand();
   ~OpenClientCommand() override;
   int connectClient();
-  static void runClient(int client_socket);
+  void runClient();
 
   int execute(int i, vector<string> lexerData) override;
 
