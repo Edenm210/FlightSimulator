@@ -45,7 +45,10 @@ class VariableMap{
 
   static bool getBool();
 
-  static void setBool(bool b);
+  void updateFlyMap(string name, Var* var);
+
+
+    static void setBool(bool b);
 
   ~VariableMap();
 

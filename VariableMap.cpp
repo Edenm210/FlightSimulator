@@ -22,6 +22,11 @@ VariableMap::VariableMap() {
   initVarMap();
 };
 
+void VariableMap::updateFlyMap(string name, Var* var){
+  varsFlyMap[name] = var;
+}
+
+
 
 VariableMap::~VariableMap() {
   this->varsGenMap.clear();
