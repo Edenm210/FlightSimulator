@@ -15,23 +15,27 @@ bool VariableMap::progEnd = 1;
 
 vector<string> VariableMap::varGenNames = {};
 
-vector<string> VariableMap::varFlyNames = {};
+queue<pair<string, float>> VariableMap::flyVarsQueue = {};
 
 VariableMap::VariableMap() {
-  //CONSTRUCTOR
-  initVarMap();
+    //CONSTRUCTOR
+    initVarMap();
 };
 
 void VariableMap::updateFlyMap(string name, Var* var){
-  varsFlyMap[name] = var;
+    varsFlyMap[name] = var;
 }
 
 
+void VariableMap::updateVarsQueue(string name, float val) {
+    auto temp = make_pair(name, val);
+    flyVarsQueue.emplace(temp);
+}
 
 VariableMap::~VariableMap() {
-  this->varsGenMap.clear();
-  this->varsFlyMap.clear();
-  delete VariableMap::instanceVarMap;
+    this->varsGenMap.clear();
+    this->varsFlyMap.clear();
+    delete VariableMap::instanceVarMap;
 }
 
 //void addVarToMap(string name, Var* v) {
@@ -39,362 +43,376 @@ VariableMap::~VariableMap() {
 //}
 
 void VariableMap::setVarValue(string name, float newValue){
-  VariableMap::getInstanceVarsMap()->getGenVarsMap().find(name)->second->changeVarValue(newValue);
+    //VariableMap::getInstanceVarsMap()->getGenVarsMap().find(name)->second->changeVarValue(newValue);
+    varsGenMap[name]->changeVarValue(newValue);
 }
 
 VariableMap* VariableMap::getInstanceVarsMap() {
-  if (instanceVarMap == 0) {
-    instanceVarMap = new VariableMap();
-  }
-  return instanceVarMap;
+    if (instanceVarMap == 0) {
+        instanceVarMap = new VariableMap();
+    }
+    return instanceVarMap;
 }
 
 unordered_map<string, Var*> VariableMap::getFlyVarsMap() {
-  return this->varsFlyMap;
+    return this->varsFlyMap;
 }
 
 unordered_map<string, Var*> VariableMap::getGenVarsMap() {
-  return this->varsGenMap;
+    return this->varsGenMap;
 }
 
 vector<string> VariableMap::getGenNames() {
-  return varGenNames;
+    return varGenNames;
 }
 
-vector<string> VariableMap::getFlyNames() {
-    return varFlyNames;
-}
 
 bool VariableMap::getBool() {
-  return VariableMap::progEnd;
+    return VariableMap::progEnd;
 }
 
 void VariableMap::setBool(bool b) {
-  VariableMap::progEnd = b;
+    VariableMap::progEnd = b;
 
 }
 
 void VariableMap::initVarMap() {
-  //"/instrumentation/airspeed-indicator/indicated-speed-kt"
-  string simVar = "/instrumentation/airspeed-indicator/indicated-speed-kt";
-  Var *v1 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    //"/instrumentation/airspeed-indicator/indicated-speed-kt"
+    string simVar = "/instrumentation/airspeed-indicator/indicated-speed-kt";
+    Var *v1 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v1;
+    this->varsGenMap[simVar] = v1;
 
-  //"/sim/time/warp"
+    //"/sim/time/warp"
 
 
-  simVar = "/sim/time/warp";
-  Var *v2 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/sim/time/warp";
+    Var *v2 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v2;
+    this->varsGenMap[simVar] = v2;
 
-  //"/controls/switches/magnetos"
+    //"/controls/switches/magnetos"
 
 
-  simVar = "/controls/switches/magnetos";
-  Var *v3 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/controls/switches/magnetos";
+    Var *v3 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v3;
+    this->varsGenMap[simVar] = v3;
 
-  //"/instrumentation/heading-indicator/offset-deg"
+    //"/instrumentation/heading-indicator/offset-deg"
 
 
-  simVar = "/instrumentation/heading-indicator/offset-deg";
-  Var *v4 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/heading-indicator/offset-deg";
+    Var *v4 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v4;
+    this->varsGenMap[simVar] = v4;
 
-  //"/instrumentation/altimeter/indicated-altitude-ft"
+    //"/instrumentation/altimeter/indicated-altitude-ft"
 
 
-  simVar = "/instrumentation/altimeter/indicated-altitude-ft";
-  Var *v5 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/altimeter/indicated-altitude-ft";
+    Var *v5 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v5;
+    this->varsGenMap[simVar] = v5;
 
-  //"/instrumentation/altimeter/pressure-alt-ft"
+    //"/instrumentation/altimeter/pressure-alt-ft"
 
 
-  simVar = "/instrumentation/altimeter/pressure-alt-ft";
-  Var *v6 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/altimeter/pressure-alt-ft";
+    Var *v6 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v6;
+    this->varsGenMap[simVar] = v6;
 
-  //"/instrumentation/attitude-indicator/indicated-pitch-deg"
+    //"/instrumentation/attitude-indicator/indicated-pitch-deg"
 
 
-  simVar = "/instrumentation/attitude-indicator/indicated-pitch-deg";
-  Var *v7 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/attitude-indicator/indicated-pitch-deg";
+    Var *v7 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v7;
+    this->varsGenMap[simVar] = v7;
 
-  //"/instrumentation/attitude-indicator/indicated-roll-deg"
+    //"/instrumentation/attitude-indicator/indicated-roll-deg"
 
 
-  simVar = "/instrumentation/attitude-indicator/indicated-roll-deg";
-  Var *v8 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/attitude-indicator/indicated-roll-deg";
+    Var *v8 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v8;
+    this->varsGenMap[simVar] = v8;
 
-  //"/instrumentation/attitude-indicator/internal-pitch-deg"
+    //"/instrumentation/attitude-indicator/internal-pitch-deg"
 
 
-  simVar = "/instrumentation/attitude-indicator/internal-pitch-deg";
-  Var *v9 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/attitude-indicator/internal-pitch-deg";
+    Var *v9 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v9;
+    this->varsGenMap[simVar] = v9;
 
-  //"/instrumentation/attitude-indicator/internal-roll-deg"
+    //"/instrumentation/attitude-indicator/internal-roll-deg"
 
 
-  simVar = "/instrumentation/attitude-indicator/internal-roll-deg";
-  Var *v10 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/attitude-indicator/internal-roll-deg";
+    Var *v10 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v10;
+    this->varsGenMap[simVar] = v10;
 
 
 
-  //"/instrumentation/encoder/indicated-altitude-ft"
-  simVar = "/instrumentation/encoder/indicated-altitude-ft";
-  Var *v11 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    //"/instrumentation/encoder/indicated-altitude-ft"
+    simVar = "/instrumentation/encoder/indicated-altitude-ft";
+    Var *v11 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v11;
+    this->varsGenMap[simVar] = v11;
 
-  //"/instrumentation/encoder/pressure-alt-ft"
+    //"/instrumentation/encoder/pressure-alt-ft"
 
 
-  simVar = "/instrumentation/encoder/pressure-alt-ft";
-  Var *v12 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/encoder/pressure-alt-ft";
+    Var *v12 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v12;
+    this->varsGenMap[simVar] = v12;
 
-  //"/instrumentation/gps/indicated-altitude-ft"
+    //"/instrumentation/gps/indicated-altitude-ft"
 
 
-  simVar = "/instrumentation/gps/indicated-altitude-ft";
-  Var *v13 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/gps/indicated-altitude-ft";
+    Var *v13 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v13;
+    this->varsGenMap[simVar] = v13;
 
 
 
-  //"/instrumentation/gps/indicated-ground-speed-kt"
-  simVar = "/instrumentation/gps/indicated-ground-speed-kt";
-  Var *v14 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    //"/instrumentation/gps/indicated-ground-speed-kt"
+    simVar = "/instrumentation/gps/indicated-ground-speed-kt";
+    Var *v14 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v14;
+    this->varsGenMap[simVar] = v14;
 
-  //"/instrumentation/gps/indicated-vertical-speed"
+    //"/instrumentation/gps/indicated-vertical-speed"
 
 
-  simVar = "/instrumentation/gps/indicated-vertical-speed";
-  Var *v15 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/gps/indicated-vertical-speed";
+    Var *v15 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v15;
+    this->varsGenMap[simVar] = v15;
 
-  //"/instrumentation/heading-indicator/indicated-heading-deg"
+    //"/instrumentation/heading-indicator/indicated-heading-deg"
 
 
-  simVar = "/instrumentation/heading-indicator/indicated-heading-deg";
-  Var *v16 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/heading-indicator/indicated-heading-deg";
+    Var *v16 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v16;
+    this->varsGenMap[simVar] = v16;
 
-  //"/instrumentation/magnetic-compass/indicated-heading-deg"
+    //"/instrumentation/magnetic-compass/indicated-heading-deg"
 
 
-  simVar = "/instrumentation/magnetic-compass/indicated-heading-deg";
-  Var *v17 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/magnetic-compass/indicated-heading-deg";
+    Var *v17 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v17;
+    this->varsGenMap[simVar] = v17;
 
-  //"/instrumentation/slip-skid-ball/indicated-slip-skid"
+    //"/instrumentation/slip-skid-ball/indicated-slip-skid"
 
 
-  simVar = "/instrumentation/slip-skid-ball/indicated-slip-skid";
-  Var *v18 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/slip-skid-ball/indicated-slip-skid";
+    Var *v18 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v18;
+    this->varsGenMap[simVar] = v18;
 
-  //"/instrumentation/turn-indicator/indicated-turn-rate"
+    //"/instrumentation/turn-indicator/indicated-turn-rate"
 
 
-  simVar = "/instrumentation/turn-indicator/indicated-turn-rate";
-  Var *v19 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/turn-indicator/indicated-turn-rate";
+    Var *v19 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v19;
+    this->varsGenMap[simVar] = v19;
 
-  //"/instrumentation/vertical-speed-indicator/indicated-speed-fpm"
+    //"/instrumentation/vertical-speed-indicator/indicated-speed-fpm"
 
-  simVar = "/instrumentation/vertical-speed-indicator/indicated-speed-fpm";
-  Var *v20 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/instrumentation/vertical-speed-indicator/indicated-speed-fpm";
+    Var *v20 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
 
-  this->varsGenMap[simVar] = v20;
+    this->varsGenMap[simVar] = v20;
 
-  //"/controls/flight/aileron"
+    //"/controls/flight/aileron"
 
 
-  simVar = "/controls/flight/aileron";
-  Var *v21 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/controls/flight/aileron";
+    Var *v21 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v21;
+    this->varsGenMap[simVar] = v21;
 
-  //"/controls/flight/elevator"
+    //"/controls/flight/elevator"
 
 
-  simVar = "/controls/flight/elevator";
-  Var *v22 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/controls/flight/elevator";
+    Var *v22 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v22;
+    this->varsGenMap[simVar] = v22;
 
-  //"/controls/flight/rudder"
+    //"/controls/flight/rudder"
 
 
-  simVar = "/controls/flight/rudder";
-  Var *v23 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/controls/flight/rudder";
+    Var *v23 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v23;
+    this->varsGenMap[simVar] = v23;
 
-  //"/controls/flight/flaps"
+    //"/controls/flight/flaps"
 
 
-  simVar = "/controls/flight/flaps";
-  Var *v24 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/controls/flight/flaps";
+    Var *v24 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v24;
+    this->varsGenMap[simVar] = v24;
 
-  //"/controls/engines/engine/throttle"
-  simVar = "/controls/engines/engine/throttle";
-  Var *v25 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    //"/controls/engines/engine/throttle"
+    simVar = "/controls/engines/engine/throttle";
+    Var *v25 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
 
 
 
-  this->varsGenMap[simVar] = v25;
+    this->varsGenMap[simVar] = v25;
 
-  //"/controls/engines/current-engine/throttle"
-  simVar = "/controls/engines/current-engine/throttle";
-  Var *v26 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    //"/controls/engines/current-engine/throttle"
+    simVar = "/controls/engines/current-engine/throttle";
+    Var *v26 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
 
 
 
-  this->varsGenMap[simVar] = v26;
+    this->varsGenMap[simVar] = v26;
 
-  //"/controls/switches/master-avionics"
+    //"/controls/switches/master-avionics"
 
 
-  simVar = "/controls/switches/master-avionics";
-  Var *v27 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    simVar = "/controls/switches/master-avionics";
+    Var *v27 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v27;
+    this->varsGenMap[simVar] = v27;
 
-  //"/controls/switches/starter"
-  simVar = "/controls/switches/starter";
-  Var *v28 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
+    //"/controls/switches/starter"
+    simVar = "/controls/switches/starter";
+    Var *v28 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
+    this->varsGenMap[simVar] = v28;
 
+    //"/engines/active-engine/auto-start"
 
 
-  this->varsGenMap[simVar] = v28;
+    simVar = "/engines/active-engine/auto-start";
+    Var *v29 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  //"/engines/active-engine/auto-start"
+    this->varsGenMap[simVar] = v29;
 
+    //"/controls/flight/speedbrake"
 
-  simVar = "/engines/active-engine/auto-start";
-  Var *v29 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v29;
+    simVar = "/controls/flight/speedbrake";
+    Var *v30 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  //"/controls/flight/speedbrake"
+    this->varsGenMap[simVar] = v30;
 
+    //"/sim/model/c172p/brake-parking"
 
-  simVar = "/controls/flight/speedbrake";
-  Var *v30 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v30;
+    simVar = "/sim/model/c172p/brake-parking";
+    Var *v31 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  //"/sim/model/c172p/brake-parking"
+    this->varsGenMap[simVar] = v31;
 
+    //"/controls/engines/engine/primer"
 
-  simVar = "/sim/model/c172p/brake-parking";
-  Var *v31 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v31;
+    simVar = "/controls/engines/engine/primer";
+    Var *v32 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
 
-  //"/controls/engines/engine/primer"
+    this->varsGenMap[simVar] = v32;
 
+    //"/controls/engines/current-engine/mixture"
 
-  simVar = "/controls/engines/engine/primer";
-  Var *v32 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
 
-  this->varsGenMap[simVar] = v32;
+    simVar = "/controls/engines/current-engine/mixture";
+    Var *v33 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
+    this->varsGenMap[simVar] = v33;
 
-  //"/controls/engines/current-engine/mixture"
+    //"/controls/switches/master-bat"
+    simVar = "/controls/switches/master-bat";
+    Var *v34 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
+    this->varsGenMap[simVar] = v34;
 
+    //"/controls/switches/master-alt"
+    simVar = "/controls/switches/master-alt";
+    Var *v35 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
+    this->varsGenMap[simVar] = v35;
 
-  simVar = "/controls/engines/current-engine/mixture";
-  Var *v33 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
-  this->varsGenMap[simVar] = v33;
-
-  //"/controls/switches/master-bat"
-  simVar = "/controls/switches/master-bat";
-  Var *v34 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
-  this->varsGenMap[simVar] = v34;
-
-  //"/controls/switches/master-alt"
-  simVar = "/controls/switches/master-alt";
-  Var *v35 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
-  this->varsGenMap[simVar] = v35;
-
-  //"/engines/engine/rpm"
-  simVar = "/engines/engine/rpm";
-  Var *v36 = new Var(simVar, "", 0);
-  VariableMap::varGenNames.emplace_back(simVar);
-  this->varsGenMap[simVar] = v36;
+    //"/engines/engine/rpm"
+    simVar = "/engines/engine/rpm";
+    Var *v36 = new Var(simVar, "", 0);
+    VariableMap::varGenNames.emplace_back(simVar);
+    this->varsGenMap[simVar] = v36;
 
 }
+
+queue<pair<string, float>> VariableMap::getUpdatedVars() {
+    return flyVarsQueue;
+}
+
+void VariableMap::updateFlyFromGen() {
+    string name;
+    float val;
+    auto itFly = varsFlyMap.begin();
+    while (itFly != varsFlyMap.end()) {
+        name = itFly->second->getSim();
+        if (varsGenMap.find(name) != varsGenMap.end()) {
+            val = varsGenMap[name]->getVal();
+            itFly->second->changeVarValue(val);
+        }
+        itFly++;
+    }
+}
+
+
 /*
 bool VariableMap::getFlyDone() {
     return doneFly;
 }
-
 void VariableMap::setFlyDone(bool c) {
     doneFly = c;
 }
@@ -411,7 +429,6 @@ void VariableMap::print() {
         cout << this->varsGenMap.find(str)->first << ": " << this->varsGenMap.find(str)->second->getSim()
         << " - " << this->varsGenMap.find(str)->second->getDirect() << " - "
         << this->varsGenMap.find(str)->second->getVal() << endl;
-
         cout << VarNames.at(i) << endl;
     }
 }

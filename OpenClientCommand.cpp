@@ -21,7 +21,7 @@ OpenClientCommand::~OpenClientCommand() {};
 
 int OpenClientCommand::execute(int i, vector<string> lexerData) {
     Interpreter *i1 = new Interpreter();
-    Expression *exp = nullptr;    
+    Expression *exp = nullptr;
 
     try {
         exp = i1->interpret(lexerData[i + 2]);
@@ -85,35 +85,41 @@ int OpenClientCommand::connectClient() {
 }
 
 void OpenClientCommand::runClient() {
-    // running the program
+    // running the
     while (!VariableMap::getBool()) {
         //reading from client
         //char buffer[2048] = {0};
         //int valread = read(client_socket, buffer, 2048);
         // std::cout << buffer << std::endl;
-        string key;
-        int varAmount, i;
-        unordered_map<string, Var *> variablesMap = VariableMap::getInstanceVarsMap()->getFlyVarsMap();
-        varAmount = VariableMap::getFlyNames().size();
-        if (!VariableMap::getFlyNames().empty()) {
-            for (i = 0; i < varAmount; i++) { // going through the vars is the list
-                key = VariableMap::getFlyNames().at(i);
-                if (variablesMap[key]->getDirect() == "->") { //equals
-                    string sim = variablesMap[key]->getSim();
-                    float val = variablesMap[key]->getVal();
+        try {
+            pair<string, float> tempVar;
+            int varAmount, i;
+            varAmount = VariableMap::getUpdatedVars().size();
+            if (varAmount != 0) {
+                for (i = 0; i < varAmount; i++) { // going through the vars is the list
+                    mtxC.lock();
+                    string sim = VariableMap::getUpdatedVars().front().first;
+                    float val = VariableMap::getUpdatedVars().front().second;
+                    mtxC.unlock();
                     string s = ("set " + sim + " " + to_string(val) + "\r\n");
                     char cstr[s.size() + 1];
                     strcpy(cstr, s.c_str());
-
                     //char* stringToSend = s;
                     cout << cstr << endl;
                     send(client_socket, cstr, strlen(cstr), 0);
+                    VariableMap::getUpdatedVars().pop();
                 }
             }
+            std::this_thread::sleep_for(chrono::milliseconds(200));
+        } catch (exception e) {
+            throw "Client messed up";
         }
-        //cout<<"Finished sending data (Client)"<<endl;
-        //usleep(500);
     }
-    close(client_socket);
 
+    //VariableMap::getInstanceVarsMap()->updateVarsQueue();
+    //cout<<"Finished sending data (Client)"<<endl;
+    //usleep(500);
+    close(client_socket);
 }
+
+

@@ -13,21 +13,24 @@ SleepCommand::SleepCommand() {}
 SleepCommand::~SleepCommand() {}
 
 int SleepCommand::execute(int i, vector<string> lexerData) {
-  int moveIndex = 0, seconds, time;
-  string str;
-  //advance the token 'Sleep' to the next token - the time to sleep
-  i++;
-  moveIndex++;
-  str = lexerData[i];
-  time = stoi(str);
-  time = time /100;
-  chrono::milliseconds ms(0);
-  chrono::seconds sec(time);
-  this_thread::__sleep_for(sec ,ms);
-  moveIndex++;
-  cout<<"Done Sleeping"<<endl;
+    int moveIndex = 0, seconds, time;
+    string str;
+    //advance the token 'Sleep' to the next token - the time to sleep
+    i++;
+    moveIndex++;
+    str = lexerData[i];
+    time = stoi(str);
+    if (time > 1000) {
+        time = time / 1000;
+        this_thread::sleep_for(chrono::seconds(time));
 
-  return moveIndex;
+    } else {
+        this_thread::sleep_for(chrono::milliseconds(time));
+    }
+    moveIndex++;
+    cout << "Done Sleeping" << endl;
+
+    return moveIndex;
 }
 
 

@@ -22,6 +22,10 @@ string Var::getDirect () {
   return this->direct;
 }
 
+void Var::setDirect(string str){
+    this->direct = direct;
+}
+
 string Var::getSim () {
   return this->sim;
 }

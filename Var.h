@@ -27,6 +27,8 @@ class Var{
 
   string getDirect ();
 
+  void setDirect(string str);
+
   string getSim ();
 
 

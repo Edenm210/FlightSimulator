@@ -12,14 +12,14 @@
 using namespace std;
 
 class DefineVarCommand : public Command{
- public:
-  DefineVarCommand();
-  ~DefineVarCommand() override;
-  int execute(int i, vector<string> lexerData) override; // i is the location of the commandName in the array
+public:
+    DefineVarCommand();
+    ~DefineVarCommand() override;
+    int execute(int i, vector<string> lexerData) override; // i is the location of the commandName in the array
 
-  void updateValueOfVar(string exp, string varName);
+    void updateValueOfVar(string exp, string varName);
 
 
-  };
+};
 
 #endif //PROJECT3__DEFINEVARCOMMAND_H_
