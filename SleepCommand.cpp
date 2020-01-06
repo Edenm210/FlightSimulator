@@ -20,12 +20,15 @@ int SleepCommand::execute(int i, vector<string> lexerData) {
   moveIndex++;
   str = lexerData[i];
   time = stoi(str);
-  time = time /100;
-  chrono::milliseconds ms(0);
-  chrono::seconds sec(time);
-  this_thread::__sleep_for(sec ,ms);
+  if (time > 1000) {
+    time = time / 1000;
+    this_thread::sleep_for(chrono::seconds(time));
+
+  } else {
+    this_thread::sleep_for(chrono::milliseconds(time));
+  }
   moveIndex++;
-  cout<<"Done Sleeping"<<endl;
+  cout << "Done Sleeping" << endl;
 
   return moveIndex;
 }

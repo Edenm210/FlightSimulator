@@ -10,18 +10,18 @@
 #include "Expression.h"
 #include "Var.h"
 #include <vector>
+#include "queue"
 
 using namespace std;
 
-
-class VariableMap{
+class VariableMap {
 
  private:
-  static VariableMap* instanceVarMap;
-  unordered_map<string, Var*> varsGenMap; // generic variables
-  unordered_map<string, Var*> varsFlyMap; // variables from the "fly.txt" (from the code)
+  static VariableMap *instanceVarMap;
+  unordered_map<string, Var *> varsGenMap; // generic variables
+  unordered_map<string, Var *> varsFlyMap; // variables from the "fly.txt" (from the code)
   static vector<string> varGenNames; // variables' gen-sim name list
-  static vector<string> varFlyNames; // variables' fly-sim name list
+  static queue<pair<string, float>> flyVarsQueue;
   static bool progEnd;
 
   /* Private constructor to prevent instancing. */
@@ -30,25 +30,32 @@ class VariableMap{
 
  public:
   /* Static access method. */
-  static VariableMap* getInstanceVarsMap();
+  static VariableMap *getInstanceVarsMap();
 
-  unordered_map<string, Var*> getGenVarsMap();
-  unordered_map<string, Var*> getFlyVarsMap();
+  unordered_map<string, Var *> getGenVarsMap();
+  unordered_map<string, Var *> getFlyVarsMap();
 
   void setVarValue(string name, float newValue);
 
-  static vector<string> getGenNames();
+  static string getGenName(int i);
 
-  static vector<string> getFlyNames();
+  static queue<pair<string, float>> getUpdatedVars();
+
+  void updateFlyFromGen();
 
   //void print();
 
   static bool getBool();
 
-  void updateFlyMap(string name, Var* var);
+  void updateFlyMap(string name, Var *var);
 
+  void updateVarsQueue(string name, float val);
 
-    static void setBool(bool b);
+  void clearUpdatedVars();
+
+  Var *findSimInGen(string sim);
+
+  static void setBool(bool b);
 
   ~VariableMap();
 

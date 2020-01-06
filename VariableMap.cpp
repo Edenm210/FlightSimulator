@@ -15,7 +15,7 @@ bool VariableMap::progEnd = 1;
 
 vector<string> VariableMap::varGenNames = {};
 
-vector<string> VariableMap::varFlyNames = {};
+queue<pair<string, float>> VariableMap::flyVarsQueue = {};
 
 VariableMap::VariableMap() {
   //CONSTRUCTOR
@@ -26,7 +26,17 @@ void VariableMap::updateFlyMap(string name, Var* var){
   varsFlyMap[name] = var;
 }
 
+Var* VariableMap::findSimInGen(string sim) {
+  auto it = this->varsGenMap.find(sim);
 
+  return it->second;
+}
+
+
+void VariableMap::updateVarsQueue(string name, float val) {
+  auto temp = make_pair(name, val);
+  flyVarsQueue.emplace(temp);
+}
 
 VariableMap::~VariableMap() {
   this->varsGenMap.clear();
@@ -39,7 +49,8 @@ VariableMap::~VariableMap() {
 //}
 
 void VariableMap::setVarValue(string name, float newValue){
-  VariableMap::getInstanceVarsMap()->getGenVarsMap().find(name)->second->changeVarValue(newValue);
+  //VariableMap::getInstanceVarsMap()->getGenVarsMap().find(name)->second->changeVarValue(newValue);
+  varsGenMap[name]->changeVarValue(newValue);
 }
 
 VariableMap* VariableMap::getInstanceVarsMap() {
@@ -57,13 +68,10 @@ unordered_map<string, Var*> VariableMap::getGenVarsMap() {
   return this->varsGenMap;
 }
 
-vector<string> VariableMap::getGenNames() {
-  return varGenNames;
+string VariableMap::getGenName(int i) {
+  return varGenNames[i];
 }
 
-vector<string> VariableMap::getFlyNames() {
-    return varFlyNames;
-}
 
 bool VariableMap::getBool() {
   return VariableMap::progEnd;
@@ -79,7 +87,6 @@ void VariableMap::initVarMap() {
   string simVar = "/instrumentation/airspeed-indicator/indicated-speed-kt";
   Var *v1 = new Var(simVar, "", 0);
   VariableMap::varGenNames.emplace_back(simVar);
-
   this->varsGenMap[simVar] = v1;
 
   //"/sim/time/warp"
@@ -88,7 +95,6 @@ void VariableMap::initVarMap() {
   simVar = "/sim/time/warp";
   Var *v2 = new Var(simVar, "", 0);
   VariableMap::varGenNames.emplace_back(simVar);
-
   this->varsGenMap[simVar] = v2;
 
   //"/controls/switches/magnetos"
@@ -322,9 +328,6 @@ void VariableMap::initVarMap() {
   simVar = "/controls/switches/starter";
   Var *v28 = new Var(simVar, "", 0);
   VariableMap::varGenNames.emplace_back(simVar);
-
-
-
   this->varsGenMap[simVar] = v28;
 
   //"/engines/active-engine/auto-start"
@@ -390,11 +393,36 @@ void VariableMap::initVarMap() {
   this->varsGenMap[simVar] = v36;
 
 }
+
+queue<pair<string, float>> VariableMap::getUpdatedVars() {
+  return flyVarsQueue;
+}
+
+void VariableMap::updateFlyFromGen() {
+  string name;
+  float val;
+  auto itFly = varsFlyMap.begin();
+  while (itFly != varsFlyMap.end()) {
+    name = itFly->second->getSim();
+    if (varsGenMap.find(name) != varsGenMap.end()) {
+      val = varsGenMap[name]->getVal();
+      itFly->second->changeVarValue(val);
+    }
+    itFly++;
+  }
+}
+
+void VariableMap::clearUpdatedVars() {
+  while (!flyVarsQueue.empty()) {
+    flyVarsQueue.pop();
+  }
+}
+
+
 /*
 bool VariableMap::getFlyDone() {
     return doneFly;
 }
-
 void VariableMap::setFlyDone(bool c) {
     doneFly = c;
 }
@@ -411,7 +439,6 @@ void VariableMap::print() {
         cout << this->varsGenMap.find(str)->first << ": " << this->varsGenMap.find(str)->second->getSim()
         << " - " << this->varsGenMap.find(str)->second->getDirect() << " - "
         << this->varsGenMap.find(str)->second->getVal() << endl;
-
         cout << VarNames.at(i) << endl;
     }
 }

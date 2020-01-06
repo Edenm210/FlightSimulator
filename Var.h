@@ -25,6 +25,8 @@ class Var{
 
   float getVal ();
 
+  void setDirect(string str);
+
   string getDirect ();
 
   string getSim ();

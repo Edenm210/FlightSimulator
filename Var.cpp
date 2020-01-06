@@ -14,6 +14,11 @@ void Var::changeVarValue (float newValue) {
   this->val = newValue;
 }
 
+
+void Var::setDirect(string str){
+  this->direct = str;
+}
+
 float Var::getVal () {
   return this->val;
 }

@@ -11,6 +11,8 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+
+
   VariableMap::setBool(false);
   string fileName = argv[1];
   vector<string> dataToParse;
