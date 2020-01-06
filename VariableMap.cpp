@@ -28,8 +28,18 @@ void VariableMap::updateFlyMap(string name, Var* var){
 
 Var* VariableMap::findSimInGen(string sim) {
   auto it = this->varsGenMap.find(sim);
+  if (it != varsGenMap.end()) {
+    return it->second;
+  }
+  throw "sim does not exist in GenMap";
+}
 
-  return it->second;
+Var* VariableMap::findSimInFly(string varName) {
+  auto it = this->varsFlyMap.find(varName);
+  if (it != varsFlyMap.end()) {
+    return it->second;
+  }
+  return NULL;
 }
 
 
@@ -79,7 +89,6 @@ bool VariableMap::getBool() {
 
 void VariableMap::setBool(bool b) {
   VariableMap::progEnd = b;
-
 }
 
 void VariableMap::initVarMap() {

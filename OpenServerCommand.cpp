@@ -84,6 +84,7 @@ void OpenServerCommand::getData() {
     try {
       char buffer[2048] = {0};
       int valread = read(client_socket, buffer, 2048);
+      cout<<buffer<<endl;
       for (i = 0; i < 36; i++) {
         while (buffer[j] != '\n' && buffer[j] != ',' && buffer[j] != '\0') {
           token.append(1, buffer[j]);

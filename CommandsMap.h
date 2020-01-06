@@ -32,8 +32,11 @@ class CommandsMap {
 
   unordered_map<string, Command*> getCommandMap();
 
+  Command* findCommandInMap(string commandName);
 
-  ~CommandsMap();
+
+
+    ~CommandsMap();
 
 };
 

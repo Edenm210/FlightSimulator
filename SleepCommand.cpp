@@ -18,6 +18,7 @@ int SleepCommand::execute(int i, vector<string> lexerData) {
   //advance the token 'Sleep' to the next token - the time to sleep
   i++;
   moveIndex++;
+
   str = lexerData[i];
   time = stoi(str);
   if (time > 1000) {
@@ -27,6 +28,8 @@ int SleepCommand::execute(int i, vector<string> lexerData) {
   } else {
     this_thread::sleep_for(chrono::milliseconds(time));
   }
+
+
   moveIndex++;
   cout << "Done Sleeping" << endl;
 

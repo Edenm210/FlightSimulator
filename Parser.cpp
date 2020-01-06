@@ -20,21 +20,17 @@ void Parser::ParseCommand(vector<string> lexerData) {
     int size =  lexerData.size();
     while (index < size) {
       string stringToFind = lexerData.at(index); // the word we want to find
-      Command *c;
 
-      unordered_map<string, Command*>::const_iterator
-          iter = commandMap.find(stringToFind);
+      Command* command = CommandsMap::getInstanceCommandMap()->findCommandInMap(stringToFind); //getting the VAR*
+
       //the command does not match so it is a variable name - updating variable value (=)
-      if(iter == commandMap.end()) {
-        c = new DefineVarCommand();
-      } else {
-
-        c= iter->second; // getting the command
+      if(command == NULL) {
+        command = new DefineVarCommand();
       }
-      cout<<stringToFind + " Now executing"<<endl;
-      index += c->execute(index, lexerData);
-      cout<<stringToFind + " Executed"<<endl;
 
+      cout<<stringToFind + " Now executing"<<endl;
+      index += command->execute(index, lexerData);
+      cout<<stringToFind + " Executed"<<endl;
     }
     VariableMap::setBool(true);
   } catch (const char *e) {

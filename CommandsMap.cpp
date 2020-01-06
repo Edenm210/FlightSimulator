@@ -25,6 +25,15 @@ CommandsMap::~CommandsMap() {
   delete CommandsMap::instanceCommandMap;
 }
 
+Command* CommandsMap::findCommandInMap(string commandName) {
+  auto it = this->commandMap.find(commandName);
+  if (it != commandMap.end()) {
+    return it->second;
+  }
+  return NULL;
+}
+
+
 
 CommandsMap* CommandsMap::getInstanceCommandMap() {
   if (instanceCommandMap == 0)

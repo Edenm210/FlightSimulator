@@ -24,7 +24,15 @@ int Interpreter::precedence(char c) {
 
 // interpreting the string (the input) to Expression checkType
 Expression *Interpreter::interpret(string input) {
-  queue<string> postfix = infixToPostfix(input);
+  int i = 0;
+  string exp1="";
+  while(i < input.size()) {
+    if (input[i] != ' ') {
+      exp1.append(1, input[i]);
+    }
+    i++;
+  }
+  queue<string> postfix = infixToPostfix(exp1);
   return newExpression(postfix);
 }
 

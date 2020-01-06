@@ -37,15 +37,13 @@ int WhileCommand::execute(int i, vector<string> lexerData) {
     for (int j = 1; j <= numOfCommandsInWhile; j++) {
       token = lexerData[i]; // the commandName to execute
       unordered_map<string, Command *> commandMap = CommandsMap::getInstanceCommandMap()->getCommandMap();
-      Command *c;
 
-      //the command does not match so it is a variable name - updating variable value (=)
-      if (commandMap.find(token)==commandMap.end()) {
-        c = new DefineVarCommand();
-      } else {
-        c = commandMap.find(token)->second; // getting the command
+      Command* command = CommandsMap::getInstanceCommandMap()->findCommandInMap(token); //getting the VAR*
+
+      if(command == NULL) {
+        command = new DefineVarCommand();
       }
-      i += c->execute(i, lexerData); // moving to the next command in the loop
+      i += command->execute(i, lexerData); // moving to the next command in the loop
     }
   }
   this->numOfParams = i-(firstCommand-3);

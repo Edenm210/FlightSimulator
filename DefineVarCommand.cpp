@@ -72,18 +72,19 @@ void DefineVarCommand::updateValueOfVar(string expression, string varName) {
   if (!varMap.empty()) {
     varsToSet = ConditionCommand::varsToString(varMap);
     i1->setVariables(varsToSet);
+    cout<<"string "+varsToSet<<endl;
   }
 
   try {
     exp = i1->interpret(expression);
     float newValue = exp->calculate();
-    unordered_map<string, Var *>::const_iterator
-        iter = VariableMap::getInstanceVarsMap()->getFlyVarsMap().find(varName);
-    if (iter != VariableMap::getInstanceVarsMap()->getFlyVarsMap().end()) { // the var exists as expected
-      iter->second->changeVarValue(newValue); // common VAR*
+    Var* foundVar = VariableMap::getInstanceVarsMap()->findSimInFly(varName); //getting the VAR*
+
+    if (foundVar !=NULL) { // the var exists as expected
+      foundVar->changeVarValue(newValue); // common VAR*
       //update queue for client by checking if this var need to be updated by client
-      if (iter->second->getDirect() == "->") { ///need to change the updateQueue to get the sim name (now its flyName)
-        VariableMap::getInstanceVarsMap()->updateVarsQueue(iter->second->getSim(), newValue);
+      if (foundVar->getDirect() == "->") { ///need to change the updateQueue to get the sim name (now its flyName)
+        VariableMap::getInstanceVarsMap()->updateVarsQueue(foundVar->getSim(), newValue);
       }
     } else { // new Var insertion to map with "=" direct
       VariableMap::getInstanceVarsMap()->updateFlyMap(varName, new Var("","=",newValue));

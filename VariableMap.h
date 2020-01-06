@@ -55,6 +55,8 @@ class VariableMap {
 
   Var *findSimInGen(string sim);
 
+  Var *findSimInFly(string sim);
+
   static void setBool(bool b);
 
   ~VariableMap();
