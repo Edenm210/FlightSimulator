@@ -42,10 +42,10 @@ This project was created by Eden Moshe and Yakir Moshe as an assignment in Advan
   ## Run Instructions:
   * Download FlightGear Simulator - from the link below
   * In the main menu of FlightGear, access the settings and add the following settings in "Additional ‫‪‬‬ ‫‪Settings‬":
-  1. --generic=socket,out,10,127.0.0.1,5400,tcp,generic_small
-  2. --telnet=socket,in,10,127.0.0.1,5402,tcp --httpd=8080
+    * --generic=socket,out,10,127.0.0.1,5400,tcp,generic_small
+    * --telnet=socket,in,10,127.0.0.1,5402,tcp --httpd=8080
   * Open the linux terminal and compile the program:
-    g++ -std=c++14 */*.cpp *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
+    * g++ -std=c++14 */*.cpp *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
   * Run the program with a text file:
     ./a.out file_name.txt
   * Press "Fly!" on FlightGear simulator.
