@@ -42,7 +42,7 @@ This project was created by Eden Moshe and Yakir Moshe as an assignment in Advan
     * --generic=socket,out,10,127.0.0.1,5400,tcp,generic_small
     * --telnet=socket,in,10,127.0.0.1,5402,tcp --httpd=8080
   * Open the linux terminal and compile the program:
-    * g++ -std=c++14 */*.cpp *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
+    * g++ -std=c++14 *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
   * Put your input text file at the same folder with your .cpp files and run the program with the following command (in the linux terminal): 
     * ./a.out file_name.txt
   * Press "Fly!" on FlightGear simulator.
