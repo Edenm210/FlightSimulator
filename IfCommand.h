@@ -1,6 +1,4 @@
-//
-// Created by eden on 21/12/2019.
-//
+
 
 #ifndef PROJECT3__IFCOMMAND_H_
 #define PROJECT3__IFCOMMAND_H_
@@ -16,13 +14,13 @@ using namespace std;
 
 class IfCommand : public ConditionCommand {
 
- public:
-  IfCommand();
-  ~IfCommand() override;
+public:
+    IfCommand();
 
-  int execute(int i, vector<string> lexerData) override; // i is the location of the commandName in the array
+    ~IfCommand() override;
 
-  //string getExp(string s);
+    int execute(int i, vector<string> lexerData) override; // i is the location of the commandName in the array
+
 };
 
 #endif //PROJECT3__IFCOMMAND_H_

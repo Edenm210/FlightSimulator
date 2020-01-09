@@ -1,6 +1,4 @@
-//
-// Created by eden on 02/01/2020.
-//
+
 
 #ifndef PROJECT3__CONDITIONCOMMAND_H_
 #define PROJECT3__CONDITIONCOMMAND_H_
@@ -10,24 +8,26 @@
 #include "Var.h"
 #include <string>
 
-class ConditionCommand : public Command{
- private:
-  float leftArg;
-  float rightArg;
-  int oper;
+class ConditionCommand : public Command {
+private:
+    float leftArg;
+    float rightArg;
+    int oper;
 
- public:
-  ConditionCommand();
-  static int idenOperator(string s);
-  static int idenOperator(char c);
-  static string varsToString(unordered_map<string, Var*> varMap);
+public:
+    ConditionCommand();
 
-  void initCondition(string s);
+    static int idenOperator(string s);
 
-  bool conditionCheck();
+    static int idenOperator(char c);
 
+    static string varsToString(unordered_map<string, Var *> varMap);
 
-  virtual ~ConditionCommand(){}
+    void initCondition(string s);
+
+    bool conditionCheck();
+
+    virtual ~ConditionCommand() {}
 
 
 };

@@ -1,6 +1,3 @@
-//
-// Created by eden on 18/12/2019.
-//
 
 #include "CommandsMap.h"
 #include "DefineVarCommand.h"
@@ -12,48 +9,49 @@
 #include "IfCommand.h"
 
 /* Null, because instance will be initialized on demand. */
-CommandsMap* CommandsMap::instanceCommandMap = 0;
+CommandsMap *CommandsMap::instanceCommandMap = 0;
 
 CommandsMap::CommandsMap() {
-  //CONSTRUCTOR
-  initCommandMap();
-};
+    initCommandMap();
+}
 
 
 CommandsMap::~CommandsMap() {
-  this->commandMap.clear();
-  delete CommandsMap::instanceCommandMap;
+    this->commandMap.clear();
+    delete CommandsMap::instanceCommandMap;
 }
 
-Command* CommandsMap::findCommandInMap(string commandName) {
-  auto it = this->commandMap.find(commandName);
-  if (it != commandMap.end()) {
-    return it->second;
-  }
-  return NULL;
+//Finds the relevant command in map
+Command *CommandsMap::findCommandInMap(string commandName) {
+    auto it = this->commandMap.find(commandName);
+    if (it != commandMap.end()) {
+        return it->second;
+    }
+    return NULL;
 }
 
-
-
-CommandsMap* CommandsMap::getInstanceCommandMap() {
-  if (instanceCommandMap == 0)
-    instanceCommandMap = new CommandsMap;
-  return instanceCommandMap;
+//returns the class instance command map, if it doesnt exist - instantiate one
+CommandsMap *CommandsMap::getInstanceCommandMap() {
+    if (instanceCommandMap == 0)
+        instanceCommandMap = new CommandsMap;
+    return instanceCommandMap;
 
 }
 
-unordered_map<string, Command*> CommandsMap::getCommandMap() {
-  return this->commandMap;
+//returns the command map
+unordered_map<string, Command *> CommandsMap::getCommandMap() {
+    return this->commandMap;
 }
 
+//initializing the relevant commands (to be executed)
 void CommandsMap::initCommandMap() {
-  this->commandMap["openDataServer"] = new OpenServerCommand();
-  this->commandMap["connectControlClient"] = new OpenClientCommand();
-  this->commandMap["var"] = new DefineVarCommand();
-  this->commandMap["Print"] = new PrintCommand();
-  this->commandMap["Sleep"] = new SleepCommand();
-  this->commandMap["while"] = new WhileCommand();
-  this->commandMap["if"] = new IfCommand();
+    this->commandMap["openDataServer"] = new OpenServerCommand();
+    this->commandMap["connectControlClient"] = new OpenClientCommand();
+    this->commandMap["var"] = new DefineVarCommand();
+    this->commandMap["Print"] = new PrintCommand();
+    this->commandMap["Sleep"] = new SleepCommand();
+    this->commandMap["while"] = new WhileCommand();
+    this->commandMap["if"] = new IfCommand();
 }
 
 

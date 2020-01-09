@@ -1,6 +1,4 @@
-//
-// Created by eden on 31/12/2019.
-//
+
 
 #ifndef PROJECT3__OPENCLIENTCOMMAND_H_
 #define PROJECT3__OPENCLIENTCOMMAND_H_
@@ -15,21 +13,22 @@
 
 using namespace std;
 
-class OpenClientCommand : public Command{
- private:
-  int portNum;
-  int client_socket;
-  const char *ip;
+class OpenClientCommand : public Command {
+private:
+    int portNum;
+    int client_socket;
+    const char *ip;
 
-//  int socketfd;
-//  sockaddr_in address;
- public:
-  OpenClientCommand();
-  ~OpenClientCommand() override;
-  int connectClient();
-  void runClient();
+public:
+    OpenClientCommand();
 
-  int execute(int i, vector<string> lexerData) override;
+    ~OpenClientCommand() override;
+
+    int connectClient();
+
+    void runClient();
+
+    int execute(int i, vector<string> lexerData) override;
 
 };
 

@@ -1,6 +1,4 @@
-//
-// Created by eden on 19/12/2019.
-//
+
 
 #ifndef PROJECT3__VARIABLEMAP_H_
 #define PROJECT3__VARIABLEMAP_H_
@@ -16,50 +14,56 @@ using namespace std;
 
 class VariableMap {
 
- private:
-  static VariableMap *instanceVarMap;
-  unordered_map<string, Var *> varsGenMap; // generic variables
-  unordered_map<string, Var *> varsFlyMap; // variables from the "fly.txt" (from the code)
-  static vector<string> varGenNames; // variables' gen-sim name list
-  static queue<pair<string, float>> flyVarsQueue;
-  static bool progEnd;
+private:
+    static VariableMap *instanceVarMap;
+    unordered_map<string, Var *> varsGenMap; // generic variables
+    unordered_map<string, Var *> varsFlyMap; // variables from the "fly.txt" (from the code)
+    static vector<string> varGenNames; // variables' gen-sim name list
+    static bool progEnd; // a boolean that indicates to the server and client when to stop (threaded)
+    static queue<pair<string, float>> *flyVarsQueue;// a queue to store the updated vars (for client)
 
-  /* Private constructor to prevent instancing. */
-  VariableMap();
-  void initVarMap();
+    /* Private constructor to prevent instancing. */
+    VariableMap();
 
- public:
-  /* Static access method. */
-  static VariableMap *getInstanceVarsMap();
+    void initVarList();
 
-  unordered_map<string, Var *> getGenVarsMap();
-  unordered_map<string, Var *> getFlyVarsMap();
+public:
+    /* Static access method. */
+    static VariableMap *getInstanceVarsMap();
 
-  void setVarValue(string name, float newValue);
+    unordered_map<string, Var *> getGenVarsMap();
 
-  static string getGenName(int i);
+    unordered_map<string, Var *> getFlyVarsMap();
 
-  static queue<pair<string, float>> getUpdatedVars();
+    void setVarInGen(string name, float newValue);
 
-  void updateFlyFromGen();
+    void setVarInFly(string name, float newValue);
 
-  //void print();
+    string getGenName(int i);
 
-  static bool getBool();
+    vector<pair<string, float>> getQueue();
 
-  void updateFlyMap(string name, Var *var);
+    void updateFlyFromGen();
 
-  void updateVarsQueue(string name, float val);
+    static bool getBool();
 
-  void clearUpdatedVars();
+    void newValFlyMap(string name, string sign, float val);
 
-  Var *findSimInGen(string sim);
+    void updateVarsQueue(string name, float val);
 
-  Var *findSimInFly(string sim);
+    void clearUpdatedVars();
 
-  static void setBool(bool b);
+    void newVar(string sim, string direct, string name);
 
-  ~VariableMap();
+    float valByName(string s);
+
+    Var *findSimInGen(string sim);
+
+    Var *findSimInFly(string sim);
+
+    static void setBool(bool b);
+
+    ~VariableMap();
 
 };
 

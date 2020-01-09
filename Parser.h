@@ -1,6 +1,4 @@
-//
-// Created by eden on 17/12/2019.
-//
+
 
 #ifndef EX3__PARSER_H_
 #define EX3__PARSER_H_
@@ -16,8 +14,8 @@ using namespace std;
 
 class Parser {
 
- public:
-  static void ParseCommand(vector<string> lexerData);
+public:
+    static void ParseCommand(vector<string> lexerData);
 
 };
 

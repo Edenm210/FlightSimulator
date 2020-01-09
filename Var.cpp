@@ -1,32 +1,30 @@
-//
-// Created by eden on 19/12/2019.
-//
+
 
 #include "Var.h"
 
-Var::Var(string sim, string direct, float val) {
-  this->sim = sim;
-  this->direct = direct;
-  this->val = val;
-};
+Var::Var(string simName, string direction, float value) {
+    this->sim = simName;
+    this->direct = direction;
+    this->val = value;
+}
 
-void Var::changeVarValue (float newValue) {
-  this->val = newValue;
+void Var::changeVarValue(float newValue) {
+    this->val = newValue;
 }
 
 
-void Var::setDirect(string str){
-  this->direct = str;
+void Var::setDirect(string str) {
+    this->direct = str;
 }
 
-float Var::getVal () {
-  return this->val;
+float Var::getVal() {
+    return this->val;
 }
 
-string Var::getDirect () {
-  return this->direct;
+string Var::getDirect() {
+    return this->direct;
 }
 
-string Var::getSim () {
-  return this->sim;
+string Var::getSim() {
+    return this->sim;
 }

@@ -1,6 +1,4 @@
-//
-// Created by yakir on 12/30/19.
-//
+
 
 #include "PrintCommand.h"
 #include "VariableMap.h"
@@ -16,19 +14,19 @@ int PrintCommand::execute(int i, vector<string> lexerData) {
     i++;
     moveIndex++;
     str = lexerData[i];
-    if(VariableMap::getInstanceVarsMap()->getFlyVarsMap().find(str) !=
-    VariableMap::getInstanceVarsMap()->getFlyVarsMap().end()) {
-       val = VariableMap::getInstanceVarsMap()->getFlyVarsMap().at(str)->getVal();
-       cout<<val<<endl;
+    // defines between a var's value or a string to print
+    if (VariableMap::getInstanceVarsMap()->getFlyVarsMap().find(str) !=
+        VariableMap::getInstanceVarsMap()->getFlyVarsMap().end()) {
+        val = VariableMap::getInstanceVarsMap()->findSimInFly(str)->getVal();
+        cout << val << endl;
     } else {
-        cout<<str<<endl;
+        cout << str << endl;
     }
     moveIndex++;
-    cout<<"done Printing"<<endl;
     this->numOfParams = moveIndex;
     return numOfParams;
 }
 
-PrintCommand::PrintCommand() : Command(){}
+PrintCommand::PrintCommand() : Command() {}
 
 PrintCommand::~PrintCommand() {}

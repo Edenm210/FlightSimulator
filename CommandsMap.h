@@ -1,6 +1,4 @@
-//
-// Created by eden on 18/12/2019.
-//
+
 
 #ifndef EX3__COMMAND_H_
 #define EX3__COMMAND_H_

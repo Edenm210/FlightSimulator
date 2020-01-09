@@ -3,6 +3,7 @@
 #define PROJECT_EXPRESSION_H
 
 using namespace std;
+
 /**
  * Expression Interface
  */
@@ -10,7 +11,8 @@ class Expression {
 
 public:
     virtual float calculate() = 0;
-    virtual ~Expression(){}
+
+    virtual ~Expression() {}
 };
 
 #endif //PROJECT_EXPRESSION_H

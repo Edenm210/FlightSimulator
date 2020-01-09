@@ -1,6 +1,3 @@
-//
-// Created by eden on 19/12/2019.
-//
 
 #ifndef PROJECT3__VAR_H_
 #define PROJECT3__VAR_H_
@@ -8,30 +5,29 @@
 #include <string>
 #include <unordered_map>
 #include "Expression.h"
+
 using namespace std;
 
 
-class Var{
+class Var {
 
- private:
-  string sim;
-  string direct; // <- OR ->
-  float val;
+private:
+    string sim; // var's simulator name
+    string direct; // <- OR ->
+    float val; // var's value
 
- public:
-  Var(string sim, string direct, float val);
+public:
+    Var(string simName, string direction, float value);
 
-  void changeVarValue (float newValue);
+    void changeVarValue(float newValue);
 
-  float getVal ();
+    float getVal();
 
-  void setDirect(string str);
+    void setDirect(string str);
 
-  string getDirect ();
+    string getDirect();
 
-  string getSim ();
-
-
+    string getSim();
 
 
 };
