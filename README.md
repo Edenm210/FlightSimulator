@@ -51,62 +51,62 @@ This project was created by Eden Moshe and Yakir Moshe as an assignment in Advan
   * main.cpp
   * main.h
 
-#### Execute commands files:
-* Lexer.cpp
-* Lexer.h
-* Parser.cpp
-* Parser.h
+  ##### Execute commands files:
+  * Lexer.cpp
+  * Lexer.h
+  * Parser.cpp
+  * Parser.h
 
-#### Maps files:
-* VariableMap.cpp
-* VariableMap.h
-* CommandsMap.cpp
-* CommandsMap.h
+  ##### Maps files:
+  * VariableMap.cpp
+  * VariableMap.h
+  * CommandsMap.cpp
+  * CommandsMap.h
 
-#### Variables files:
-* Var.cpp
-* Var.h
-* Variable.cpp
-* Variable.h
+  ##### Variables files:
+  * Var.cpp
+  * Var.h
+  * Variable.cpp
+  * Variable.h
 
-#### Expression files:
-* Expression.h
-* BinaryOperator.cpp
-* BinaryOperator.h
-* UnaryOperator.cpp
-* UnaryOperator.h
-* Value.cpp
-* Value.h
-* Interpreter.cpp
-* Interpreter.h
+  ##### Expression files:
+  * Expression.h
+  * BinaryOperator.cpp
+  * BinaryOperator.h
+  * UnaryOperator.cpp
+  * UnaryOperator.h
+  * Value.cpp
+  * Value.h
+  * Interpreter.cpp
+  * Interpreter.h
 
-#### Commands files:
-* Command.h
-* ConditionCommand.cpp
-* ConditionCommand.h
-* DefineVarCommand.cpp
-* DefineVarCommand.h
-* IfCommand.cpp
-* IfCommand.h
-* OpenClientCommand.cpp
-* OpenClientCommand.h
-* OpenServerCommand.cpp
-* OpenServerCommand.h
-* PrintCommand.cpp
-* PrintCommand.h
-* SleepCommand.cpp
-* SleepCommand.h
-* UpdateVarCommand.cpp
-* UpdateVarCommand.h
-* WhileCommand.cpp
-* WhileCommand.h
+  ##### Commands files:
+  * Command.h
+  * ConditionCommand.cpp
+  * ConditionCommand.h
+  * DefineVarCommand.cpp
+  * DefineVarCommand.h
+  * IfCommand.cpp
+  * IfCommand.h
+  * OpenClientCommand.cpp
+  * OpenClientCommand.h
+  * OpenServerCommand.cpp
+  * OpenServerCommand.h
+  * PrintCommand.cpp
+  * PrintCommand.h
+  * SleepCommand.cpp
+  * SleepCommand.h
+  * UpdateVarCommand.cpp
+  * UpdateVarCommand.h
+  * WhileCommand.cpp
+  * WhileCommand.h
 
-#### Threads files:
-* ThreadsManager.cpp
-* ThreadsManager.h
+  ##### Threads files:
+  * ThreadsManager.cpp
+  * ThreadsManager.h
 
-## Text Files
-* fly.txt
+  ### Input Files
+  * fly.txt
 
 ## Links
 * Download FlightGear Simulator: https://www.flightgear.org/download/
