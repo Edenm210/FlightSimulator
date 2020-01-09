@@ -54,7 +54,7 @@ This project was created by Eden Moshe and Yakir Moshe as an assignment in Advan
   * main.cpp
   * main.h
 
-#### run commands:
+#### Execute commands files:
 * Lexer.cpp
 * Lexer.h
 * Parser.cpp
