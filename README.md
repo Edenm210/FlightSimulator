@@ -6,7 +6,7 @@ This project was created by Eden Moshe and Yakir Moshe as an assignment in Advan
 - **Eden Moshe**  
 - **Yakir Moshe**
   
-  ## Intrudoction:
+  ## Introduction:
   The goal of this project is to create a program that controls the Flight Simulator using a set of commands that will be interpreted     and sent to the simulator server.
   This project is a showcase to our programming experience. It contains: Client-Server communication programming, design pattern, data     streaming and parallel programming using Threads.
   
